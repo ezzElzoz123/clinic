@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record id="action_report_medical_visit_custom_prescription" model="ir.actions.report">
+            <field name="name">Prescription</field>
+            <field name="model">medical.visit</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">clinic.report_medical_prescription</field>
+            <field name="report_file">clinic.report_medical_prescription</field>
+            <field name="print_report_name">'Prescription Name %s' % object.patient_id.name</field>
+            <field name="attachment"/>
+            <field name="binding_model_id" ref="clinic.model_medical_visit"/>
+            <field name="binding_type">report</field>
+            <field name="paperformat_id" ref="clinic.paperformat_medical_a5"/>
+        </record>
+
+        <record id="action_report_medical_visit_custom_medical_report" model="ir.actions.report">
+            <field name="name">Medical Report</field>
+            <field name="model">medical.visit</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">clinic.report_medical_report</field>
+            <field name="report_file">clinic.report_medical_report</field>
+            <field name="print_report_name">'Medical Report Name For %s' % object.patient_id.name</field>
+            <field name="attachment"/>
+            <field name="binding_model_id" ref="clinic.model_medical_visit"/>
+            <field name="binding_type">report</field>
+            <field name="paperformat_id" ref="clinic.paperformat_medical_a5"/>
+        </record>
+
+        <record id="action_report_medical_visit_custom_medical_invoice" model="ir.actions.report">
+            <field name="name">Medical Invoice</field>
+            <field name="model">medical.visit</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">clinic.report_medical_invoice</field>
+            <field name="report_file">clinic.report_medical_invoice</field>
+            <field name="print_report_name">'Medical Invoice Name For %s' % object.patient_id.name</field>
+            <field name="attachment"/>
+            <field name="binding_model_id" ref="clinic.model_medical_visit"/>
+            <field name="binding_type">report</field>
+            <field name="paperformat_id" ref="clinic.paperformat_medical_a5"/>
+        </record>
+    </data>
+</odoo>

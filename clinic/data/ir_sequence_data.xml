@@ -1,0 +1,18 @@
+<odoo>
+    <record id="seq_medical_department" model="ir.sequence">
+        <field name="name">Medical Department Code</field>
+        <field name="code">medical.department</field>
+        <field name="prefix">DEP/</field>
+        <field name="padding">4</field>
+        <field name="company_id" eval="False"/>
+    </record>
+    <!-- Sequence for Medical Invoice -->
+    <record id="seq_medical_invoice" model="ir.sequence">
+        <field name="name">Medical Invoice</field>
+        <field name="code">account.move</field>
+        <field name="prefix">INV/%(year)s/%(month)s/</field>
+        <field name="padding">6</field>
+        <field name="company_id" eval="False"/>
+    </record>
+
+</odoo>

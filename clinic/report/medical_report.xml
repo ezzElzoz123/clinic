@@ -1,0 +1,114 @@
+<odoo>
+    <data>
+        <template id="report_medical_report">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <head>
+                        <meta charset="UTF-8"/>
+                        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+                        <style>
+                            @font-face {
+                            font-family: 'Hacen-Saudi-Arabia';
+                            src: url('/customer_invoice_report/static/src/fonts/Hacen-Saudi-Arabia.ttf')
+                            format('opentype');
+                            }
+                            body, div, table {
+                            font-family: 'Hacen-Saudi-Arabia', sans-serif;
+                            direction: rtl;
+                            }
+                            #header img { max-height:60px; }
+                            table {
+                            border-collapse: collapse;
+                            width: 100%;
+                            }
+                            th, td {
+                            border: 1px solid #000;
+                            padding: 6px;
+                            text-align: center;
+                            }
+                            thead {
+                            background: #f2f2f2;
+                            }
+                        </style>
+                    </head>
+
+                    <div style="padding: 15px; font-size: 14px;">
+
+                        <!-- ====== Header ====== -->
+                        <div style="border-bottom: 2px solid #000; padding-bottom: 8px; margin-bottom: 15px; display:flex; align-items:center;">
+                            <!-- Logo -->
+                            <div style="width:20%;">
+                                <img t-if="o.company_id.logo"
+                                     t-att-src="'data:image/png;base64,%s' % (o.company_id.logo.decode())"
+                                     style="max-height:80px;"/>
+
+                            </div>
+                            <!-- Clinic Info -->
+                            <div style="width:80%; text-align:center;">
+                                <h2 style="margin:0;">
+                                    <t t-esc="o.company_id.name"/>
+                                </h2>
+                                <p style="margin:2px 0; font-size:18px;">د.
+                                    <t t-esc="o.doctor_id.name"/>
+                                </p>
+                                <p style="margin:2px 0; font-size:18px;">
+                                    <t t-esc="o.doctor_id.details"/>
+                                </p>
+
+                            </div>
+                        </div>
+
+                        <!-- ====== Patient Info ====== -->
+                        <div style="margin-bottom: 15px;">
+                            <table style="width:100%; border:none; font-size:12px;">
+                                <tr>
+                                    <td style="border:none; font-size:16px; font-weight:bold; color:#000;">
+                                        <strong>المريض:</strong>
+                                        <span style="font-size:16px;">
+                                            <t t-esc="o.patient_id.name"/>
+                                        </span>
+                                    </td>
+                                    <td style="border:none; font-size:14px; font-weight:bold;">
+                                        <strong>السن:</strong>
+                                        <span style="font-size:14px;">
+                                            <t t-esc="o.patient_id.age"/>
+                                        </span>
+                                    </td>
+                                    <td style="border:none; font-size:14px; font-weight:bold;">
+                                        <strong>التاريخ:</strong>
+                                        <span style="font-size:14px;">
+                                            <t t-esc="o.create_date.strftime('%Y-%m-%d')"/>
+                                        </span>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div style="font-size:15px">
+                            <t t-if="o.recommendations">
+                                <p>
+                                    <t t-esc="o.recommendations"/>
+                                </p>
+                            </t>
+                        </div>
+                        <!-- ختم وتوقيع -->
+                        <div style="position: fixed; bottom: 100px; left: 0; width: 100%; text-align: left; font-size: 12px;">
+                            <p>
+                                <strong>الختم / التوقيع:</strong>
+                                ___________________
+                            </p>
+                        </div>
+                        <div style="position: fixed; bottom: 0; left: 0; width: 100%; border-top: 2px solid #000; padding-top: 6px; text-align:center; font-size:12px;">
+                            <span>
+                                <t t-esc="o.company_id.name"/>
+                                <t t-esc="o.company_id.street"/>
+                                |
+                                ☎
+                                <t t-esc="o.company_id.phone"/>
+                            </span>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

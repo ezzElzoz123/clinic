@@ -1,0 +1,265 @@
+<odoo>
+    <!-- Calendar View -->
+    <record id="view_medical_visit_calendar" model="ir.ui.view">
+        <field name="name">medical.visit.calendar</field>
+        <field name="model">medical.visit</field>
+        <field name="arch" type="xml">
+            <calendar string="Medical Visits"
+                      date_start="date"
+                      date_stop="date_end"
+                      color="doctor_id"
+                      mode="day">
+                <field name="patient_id"/>
+                <field name="doctor_id"/>
+                <field name="visit_type"/>
+                <field name="state"/>
+            </calendar>
+        </field>
+    </record>
+
+    <!-- Tree View -->
+    <record id="view_medical_visit_tree" model="ir.ui.view">
+        <field name="name">medical.visit.tree</field>
+        <field name="model">medical.visit</field>
+        <field name="arch" type="xml">
+            <tree string="Medical Visits" default_order="date desc">
+                <field name="date"/>
+                <field name="patient_id"/>
+                <field name="doctor_id"/>
+                <field name="visit_type"/>
+                <field name="state"/>
+                <field name="price"/>
+                <field name="invoice_state"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_medical_visit_form" model="ir.ui.view">
+        <field name="name">medical.visit.form</field>
+        <field name="model">medical.visit</field>
+        <field name="arch" type="xml">
+            <form string="Medical Visit" create="true" edit="true">
+                <header>
+                    <field name="state"
+                           widget="statusbar"
+                           statusbar_visible="draft,invoiced,done,cancel"/>
+
+                    <button name="action_done"
+                            type="object"
+                            string="Mark as Done"
+                            states="invoiced"
+                            class="oe_highlight"/>
+
+                    <button name="action_create_invoice"
+                            type="object"
+                            string="Create Invoice"
+                            states="draft"
+                            class="oe_highlight"/>
+
+                    <button name="action_cancel"
+                            type="object"
+                            string="Cancel"
+                            states="draft,invoiced"
+                            class="btn-danger"/>
+
+                    <button name="%(action_advance_payment_wizard)d"
+                            string="Advance Payment"
+                            type="action"
+                            class="btn-primary"/>
+
+                    <button name="action_view_advance_payments"
+                            type="object"
+                            class="oe_stat_button"
+                            icon="fa-money"
+                            string="Advance Payments">
+                        <field name="advance_payment_ids" widget="statinfo" string="Payments"/>
+                    </button>
+
+                </header>
+                <sheet>
+                    <notebook>
+
+                        <!-- Page: Personal Data -->
+                        <page string="Personal Data">
+                            <group>
+                                <field name="patient_id"/>
+                                <field name="age"/>
+                                <field name="gender"/>
+                                <field name="marital_status"/>
+                                <field name="childern_number" attrs="{'invisible':[('marital_status','=','single')]}"/>
+                                <field name="last_child_age" attrs="{'invisible':[('childern_number','=',0)]}"/>
+                                <field name="occupation"/>
+                                <field name="phone_no"/>
+                                <field name="address"/>
+                            </group>
+                        </page>
+
+                        <!-- Page: Basic Info -->
+                        <page string="Basic Info">
+                            <group>
+                                <field name="date"/>
+                                <field name="duration_minutes"/>
+                                <field name="date_end"/>
+                                <field name="visit_type"/>
+                            </group>
+                            <group>
+                                <field name="department_id"/>
+                                <field name="available_doctor_ids" invisible="1"/>
+                                <field name="doctor_id" domain="[('id','in',available_doctor_ids)]"/>
+                                <field name="price" attrs="{'invisible':[('visit_type','=','procedure')]}"/>
+                                <field name="currency_id" attrs="{'invisible':[('visit_type','=','procedure')]}"/>
+                                <field name="total_cost"/>
+                                <field name="invoice_id" readonly="1"/>
+                                <field name="invoice_state" readonly="1"/>
+                                <field name="cancel_reason"
+                                       attrs="{'invisible': [('state','not in',['cancel','draft'])]}"/>
+                            </group>
+                        </page>
+
+                        <!-- Page: Women Health -->
+                        <page string="Women Health" attrs="{'invisible':[('gender','=','male')]}">
+                            <group>
+                                <field name="is_pregnant" attrs="{'invisible':[('marital_status','=','single')]}"/>
+                                <field name="pregnant_at_month" attrs="{'invisible':[('is_pregnant','=',False)]}"/>
+                                <field name="pregnancy_weeks" attrs="{'invisible':[('is_pregnant','=',False)]}"/>
+                                <field name="last_menstrual_period"/>
+                                <field name="menstrual_history"/>
+                                <field name="contraception_method"/>
+                                <field name="gynecology_notes"/>
+                            </group>
+                        </page>
+
+                        <!-- Page: Attachments -->
+                        <page string="Attachments">
+                            <group>
+                                <field name="xray_attachment_ids" string="Radiological Attachment"
+                                       widget="many2many_binary"/>
+                                <field name="prescription_attachment_ids" widget="many2many_binary"/>
+                                <field name="lab_attachment_ids" widget="many2many_binary"/>
+                            </group>
+                        </page>
+
+                        <!-- Page: Examination -->
+                        <page string="Examination">
+                            <group>
+                                <field name="blood_pressure"/>
+                                <field name="heart_rate"/>
+                                <field name="temperature"/>
+                                <field name="weight"/>
+                                <field name="height"/>
+                                <field name="bmi" readonly="1"/>
+                            </group>
+                        </page>
+
+                        <!-- Page: Medical History -->
+                        <page string="Medical History">
+                            <group string="Chronic Diseases">
+                                <field name="has_diabetes"/>
+                                <field name="has_hypertension"/>
+                                <field name="has_heart_disease"/>
+                                <field name="has_kidney_disease"/>
+                                <field name="has_liver_disease"/>
+                                <field name="medical_history_notes"/>
+                            </group>
+                            <group string="Other Info">
+                                <field name="allergies"/>
+                                <field name="current_medications"/>
+                                <field name="previous_surgeries"/>
+                            </group>
+                            <group string="Lifestyle">
+                                <field name="smoking"/>
+                                <field name="alcohol"/>
+                                <field name="physical_activity_level"/>
+                            </group>
+                        </page>
+
+                        <!-- Page: Procedures / Operations -->
+                        <page string="Procedures / Operations" attrs="{'invisible':[('visit_type','!=','procedure')]}">
+                            <field name="operation_line_ids" nolabel="1">
+                                <tree editable="bottom">
+                                    <field name="product_id"/>
+                                    <field name="quantity"/>
+                                    <field name="price_unit"/>
+                                    <field name="subtotal" readonly="1"/>
+                                </tree>
+                            </field>
+                            <group>
+                                <field name="operation_total" readonly="1"/>
+                            </group>
+                        </page>
+
+                        <!-- Page: Diagnosis -->
+                        <page string="Diagnosis And Prescription">
+                            <group>
+                                <field name="complaint"/>
+                                <field name="diagnosis"/>
+                                <field name="radiology_required"/>
+                                <field name="lab_required"/>
+                                <field name="recommendations"
+                                       placeholder="This data wil be printed in the medical report"/>
+                                <field name="prescription_ids" widget="many2many_tags"/>
+                                <field name="next_visit_date"/>
+                            </group>
+                        </page>
+
+                        <!-- Page: Products -->
+                        <page string="Products">
+                            <field name="product_line_ids">
+                                <tree editable="bottom">
+                                    <field name="product_id"/>
+                                    <field name="quantity"/>
+                                    <field name="price_unit"/>
+                                    <field name="subtotal" readonly="1"/>
+                                </tree>
+                            </field>
+                            <group>
+                                <field name="product_total" readonly="1"/>
+                            </group>
+                        </page>
+
+                    </notebook>
+                </sheet>
+
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Search View -->
+    <record id="view_medical_visit_search" model="ir.ui.view">
+        <field name="name">medical.visit.search</field>
+        <field name="model">medical.visit</field>
+        <field name="arch" type="xml">
+            <search string="Medical Visits">
+                <field name="patient_id"/>
+                <field name="phone_no"/>
+                <field name="doctor_id"/>
+                <field name="visit_type"/>
+
+                <filter string="Draft" name="filter_draft" domain="[('state','=','draft')]"/>
+                <filter string="Done" name="filter_done" domain="[('state','=','done')]"/>
+                <filter string="Invoiced" name="filter_invoiced" domain="[('state','=','invoiced')]"/>
+                <filter string="Cancelled" name="filter_cancel" domain="[('state','=','cancel')]"/>
+
+                <group expand="0" string="Group By">
+                    <filter string="Date" name="group_date" context="{'group_by':'date'}"/>
+                    <filter string="Department" name="group_department" context="{'group_by':'department_id'}"/>
+                    <filter string="Doctor" name="group_doctor" context="{'group_by':'doctor_id'}"/>
+                    <filter string="Visit Type" name="group_visit_type" context="{'group_by':'visit_type'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action & Menu -->
+    <record id="action_medical_visit" model="ir.actions.act_window">
+        <field name="name">Medical Visits</field>
+        <field name="res_model">medical.visit</field>
+        <field name="view_mode">calendar,tree,form</field>
+    </record>
+</odoo>

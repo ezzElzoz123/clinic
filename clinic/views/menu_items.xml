@@ -1,0 +1,28 @@
+<odoo>
+    <!-- Menu -->
+    <menuitem id="menu_medical_root" name="Medical"/>
+
+    <menuitem id="menu_medical_visit" name="Visits" parent="menu_medical_root" action="action_medical_visit"
+              sequence="2"/>
+    <menuitem id="menu_medical_department"
+              name="Departments"
+              parent="menu_medical_root"
+              action="action_medical_department"
+              sequence="3"/>
+    <menuitem id="menu_medical_doctor"
+              name="Doctors"
+              parent="menu_medical_root"
+              action="action_medical_doctor"
+              sequence="4"/>
+    <menuitem id="menu_medical_patient"
+              name="Patients"
+              parent="menu_medical_root"
+              action="action_medical_patient"
+              sequence="5"/>
+    <menuitem id="menu_medical_prescription"
+              name="Medicines"
+              parent="menu_medical_root"
+              action="action_medical_prescription"
+              sequence="6"/>
+
+</odoo>

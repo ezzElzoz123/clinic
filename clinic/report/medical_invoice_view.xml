@@ -1,0 +1,207 @@
+<odoo>
+    <data>
+        <template id="report_medical_invoice">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <head>
+                        <meta charset="UTF-8"/>
+                        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+                        <style>
+                            @font-face {
+                            font-family: 'Hacen-Saudi-Arabia';
+                            src: url('/customer_invoice_report/static/src/fonts/Hacen-Saudi-Arabia.ttf')
+                            format('opentype');
+                            }
+                            body, div, table {
+                            font-family: 'Hacen-Saudi-Arabia', sans-serif;
+                            direction: rtl;
+                            }
+                            #header img { max-height:60px; }
+                            table {
+                            border-collapse: collapse;
+                            width: 100%;
+                            }
+                            th, td {
+                            border: 1px solid #000;
+                            padding: 6px;
+                            text-align: center;
+                            }
+                            thead {
+                            background: #f2f2f2;
+                            }
+                        </style>
+                    </head>
+                    <div style="padding:15px;">
+
+                        <!-- ====== Header ====== -->
+                        <div style="border-bottom: 2px solid #000; padding-bottom: 8px; margin-bottom: 15px; display:flex; align-items:center;">
+                            <!-- Logo -->
+                            <div style="width:20%;">
+                                <img t-if="o.company_id.logo"
+                                     t-att-src="'data:image/png;base64,%s' % (o.company_id.logo.decode())"
+                                     style="max-height:80px;"/>
+
+                            </div>
+                            <!-- Clinic Info -->
+                            <div style="width:80%; text-align:center;">
+                                <h2 style="margin:0;">
+                                    <t t-esc="o.company_id.name"/>
+                                </h2>
+                                <p style="margin:2px 0; font-size:18px;">د.
+                                    <t t-esc="o.doctor_id.name"/>
+                                </p>
+                                <p style="margin:2px 0; font-size:18px;">
+                                    <t t-esc="o.doctor_id.details"/>
+                                </p>
+
+                            </div>
+                        </div>
+
+                        <!-- ====== Patient Info ====== -->
+                        <div style="margin-bottom: 15px;">
+                            <table style="width:100%; border:none; font-size:12px;">
+                                <tr>
+                                    <td style="border:none; font-size:16px; font-weight:bold; color:#000;">
+                                        <strong>المريض:</strong>
+                                        <span style="font-size:16px;">
+                                            <t t-esc="o.patient_id.name"/>
+                                        </span>
+                                    </td>
+                                    <td style="border:none; font-size:14px; font-weight:bold;">
+                                        <strong>السن:</strong>
+                                        <span style="font-size:14px;">
+                                            <t t-esc="o.patient_id.age"/>
+                                        </span>
+                                    </td>
+                                    <td style="border:none; font-size:14px; font-weight:bold;">
+                                        <strong>التاريخ:</strong>
+                                        <span style="font-size:14px;">
+                                            <t t-esc="o.create_date.strftime('%Y-%m-%d')"/>
+                                        </span>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <!-- Invoice Info -->
+                        <h3 style="text-align:center; font-size:16px;">
+                            فاتورة رقم:
+                            <t t-esc="o.invoice_id.sequence_name"/>
+                        </h3>
+
+                        <!-- Details -->
+                        <table style="width:100%; border-collapse:collapse; font-size:13px;">
+                            <thead>
+                                <tr style="background:#f2f2f2;">
+                                    <th style="border:1px solid #000; padding:5px;">الخدمة / المنتج</th>
+                                    <th style="border:1px solid #000; padding:5px;">السعر</th>
+                                    <th style="border:1px solid #000; padding:5px;">الكمية</th>
+                                    <th style="border:1px solid #000; padding:5px;">الإجمالي</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Main Visit Line -->
+                                <tr>
+                                    <td style="border:1px solid #000; padding:5px;">
+                                        <t t-esc="o.visit_type"/>
+                                    </td>
+                                    <td style="border:1px solid #000; padding:5px; text-align:center;">1</td>
+                                    <td style="border:1px solid #000; padding:5px;">
+                                        <t t-if="o.visit_type == 'procedure'">
+                                            <t t-esc="o.operation_total"/>
+                                            <t t-esc="o.currency_id.symbol"/>
+                                        </t>
+                                        <t t-else="">
+                                            <t t-esc="o.price"/>
+                                            <t t-esc="o.currency_id.symbol"/>
+                                        </t>
+                                    </td>
+                                    <td style="border:1px solid #000; padding:5px;">
+                                        <t t-if="o.visit_type == 'procedure'">
+                                            <t t-esc="o.operation_total"/>
+                                            <t t-esc="o.currency_id.symbol"/>
+                                        </t>
+                                        <t t-else="">
+                                            <t t-esc="o.price"/>
+                                            <t t-esc="o.currency_id.symbol"/>
+                                        </t>
+                                    </td>
+                                </tr>
+
+                                <!-- Used Products (From Visit and Operation) -->
+                                <t t-if="(o.product_line_ids.filtered(lambda l: l.price_unit != 0) or o.operation_line_ids.filtered(lambda l: l.price_unit != 0))">
+
+                                    <!-- Visit Products -->
+                                    <t t-foreach="o.product_line_ids.filtered(lambda l: l.price_unit != 0)" t-as="line">
+                                        <tr>
+                                            <td style="border:1px solid #000; padding:5px; text-align:right;">
+                                                <t t-esc="'- %s' % line.product_id.display_name"/>
+                                            </td>
+                                            <td style="border:1px solid #000; padding:5px;">
+                                                <t t-esc="line.price_unit"/>
+                                                <t t-esc="o.currency_id.symbol"/>
+                                            </td>
+                                            <td style="border:1px solid #000; padding:5px; text-align:center;">
+                                                <t t-esc="line.quantity"/>
+                                            </td>
+                                            <td style="border:1px solid #000; padding:5px;">
+                                                <t t-esc="line.subtotal"/>
+                                                <t t-esc="o.currency_id.symbol"/>
+                                            </td>
+                                        </tr>
+                                    </t>
+
+                                    <!-- Operation Products -->
+                                    <t t-foreach="o.operation_line_ids.filtered(lambda l: l.price_unit != 0)"
+                                       t-as="line">
+                                        <tr>
+                                            <td style="border:1px solid #000; padding:5px; text-align:right;">
+                                                <t t-esc="'- %s' % line.product_id.display_name"/>
+                                            </td>
+                                            <td style="border:1px solid #000; padding:5px;">
+                                                <t t-esc="line.price_unit"/>
+                                                <t t-esc="o.currency_id.symbol"/>
+                                            </td>
+                                            <td style="border:1px solid #000; padding:5px; text-align:center;">
+                                                <t t-esc="line.quantity"/>
+                                            </td>
+                                            <td style="border:1px solid #000; padding:5px;">
+                                                <t t-esc="line.subtotal"/>
+                                                <t t-esc="o.currency_id.symbol"/>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </t>
+                            </tbody>
+                        </table>
+
+                        <!-- Footer -->
+                        <div style="margin-top:20px; text-align:right;">
+                            <h3 style="margin-right:60px; font-size:16px;">الإجمالي:
+                                <t t-esc="o.total_cost"/>
+                                <t t-esc="o.currency_id.symbol"/>
+                            </h3>
+                        </div>
+
+                        <!-- ختم وتوقيع -->
+                        <div style="position: fixed; bottom: 100px; left: 0; width: 100%; text-align: left; font-size: 12px;">
+                            <p>
+                                <strong>الختم / التوقيع:</strong>
+                                ___________________
+                            </p>
+                        </div>
+                        <div style="position: fixed; bottom: 0; left: 0; width: 100%; border-top: 2px solid #000; padding-top: 6px; text-align:center; font-size:12px;">
+                            <span>
+                                <t t-esc="o.company_id.name"/>
+                                <t t-esc="o.company_id.street"/>
+                                |
+                                ☎
+                                <t t-esc="o.company_id.phone"/>
+                            </span>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>
