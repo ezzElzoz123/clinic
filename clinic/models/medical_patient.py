@@ -12,7 +12,7 @@ class MedicalPatient(models.Model):
         ('female', 'Female'),
     ], string="Gender")
     occupation = fields.Char(string="Occupation", tracking=True)
-    phone_no = fields.Char(string="Phone Number", tracking=True)
+    phone_no = fields.Char(string="Phone Number", size=11, tracking=True)
     address = fields.Char(string="Address", tracking=True)
     partner_id = fields.Many2one('res.partner', string="Related Partner", readonly=True, tracking=True)
 

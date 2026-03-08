@@ -25,8 +25,6 @@ class MedicalVisit(models.Model):
     visit_type = fields.Selection([
         ('consultation', 'Consultation'),
         ('followup', 'Follow-up'),
-        ('emergency', 'Emergency'),
-        ('procedure', 'Procedure / Surgery'),
     ], string="Visit Type", required=True, tracking=True)
     cancel_reason = fields.Text(string="Cancellation Reason", tracking=True)
 
@@ -134,7 +132,12 @@ class MedicalVisit(models.Model):
     advance_payment_amount = fields.Monetary(string="Advance Amount")
     total_cost = fields.Float(string="Total Cost", compute="_compute_total_cost", store=True)
     invoice_id = fields.Many2one('account.move', string="Invoice", readonly=True, ondelete="set null", tracking=True)
-    invoice_state = fields.Selection(related="invoice_id.payment_state", string="Payment Status", store=True, tracking=True)
+    invoice_state = fields.Selection(
+        related="invoice_id.payment_state",
+        string="Payment Status",
+        store=True,
+        tracking=True
+    )
     
     # =========================
     # 🔹 Operations & Procedures

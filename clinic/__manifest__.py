@@ -7,7 +7,7 @@
     'license': 'AGPL-3',
     'sequence': 1,
     'depends': [
-        'base', 'base_setup', 'purchase', 'account_accountant','hr','sale_management','stock'
+        'base', 'base_setup', 'purchase', 'account_accountant', 'hr', 'sale_management', 'stock'
     ],
     'data': [
         'security/ir.model.access.csv',

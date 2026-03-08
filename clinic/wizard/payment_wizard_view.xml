@@ -6,10 +6,10 @@
         <field name="arch" type="xml">
             <form string="Advance Payment">
                 <group>
-                    <field name="medical_visit_id" readonly="1"/>
+                    <field name="medical_visit_id" readonly="1" options="{'no_create':True,'no_quick_create':True, 'no_open':True}"/>
                     <field name="amount"/>
-                    <field name="currency_id" readonly="1"/>
-                    <field name="journal_id"/>
+                    <field name="currency_id" readonly="1" options="{'no_create':True,'no_quick_create':True, 'no_open':True}"/>
+                    <field name="journal_id" domain="[('type', '=', 'cash')]" options="{'no_create':True,'no_quick_create':True, 'no_open':True}" readonly="1"/>
                 </group>
                 <footer>
                     <button name="action_confirm" string="Confirm" type="object" class="btn-primary"/>

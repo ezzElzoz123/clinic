@@ -30,14 +30,14 @@
                                 string="Visits"/>
                     </div>
                     <group>
-                        <field name="name"/>
+                        <field name="name" required="1"/>
                         <field name="age"/>
-                        <field name="gender"/>
+                        <field name="gender" required="1"/>
                     </group>
                     <group>
-                        <field name="occupation"/>
-                        <field name="phone_no"/>
-                        <field name="address"/>
+                        <field name="occupation" required="1"/>
+                        <field name="phone_no" required="1"/>
+                        <field name="address" required="1"/>
                     </group>
 
                     <notebook>
