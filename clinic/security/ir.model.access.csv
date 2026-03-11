@@ -5,6 +5,7 @@ access_medical_doctor,access.medical.doctor,model_medical_doctor,,1,1,1,1
 access_medical_department,access.medical.department,model_medical_department,,1,1,1,1
 access_medical_doctor_schedule,access.medical.doctor.schedule,model_medical_doctor_schedule,,1,1,1,1
 access_medical_prescription,access.medical.prescription,model_medical_prescription,,1,1,1,1
+access_insurance_company,access.insurance.company,model_insurance_company,,1,1,1,1
 access_medical_operation_line,access.medical.operation.line,model_medical_operation_line,,1,1,1,1
 access_medical_visit_product_line,access.medical.visit.product.line,model_medical_visit_product_line,,1,1,1,1
 access_advance_payment_wizard,access.advance.payment.wizard,model_advance_payment_wizard,,1,1,1,1

@@ -24,5 +24,10 @@
               parent="menu_medical_root"
               action="action_medical_prescription"
               sequence="6"/>
+    <menuitem id="menu_insurance_company"
+              name="Insurance Companies"
+              parent="menu_medical_root"
+              action="insurance_company_action"
+              sequence="7"/>
 
 </odoo>

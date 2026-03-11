@@ -103,9 +103,10 @@
                                 <!-- Main Visit Line -->
                                 <tr>
                                     <td style="border:1px solid #000; padding:5px;">
-                                        <t t-esc="o.visit_type"/>
+                                        <t t-if="o.visit_type == 'consultation'">كشف</t>
+                                        <t t-elif="o.visit_type == 'followup'">إعادة</t>
+                                        <t t-else="">-</t>
                                     </td>
-                                    <td style="border:1px solid #000; padding:5px; text-align:center;">1</td>
                                     <td style="border:1px solid #000; padding:5px;">
                                         <t t-if="o.visit_type == 'procedure'">
                                             <t t-esc="o.operation_total"/>
@@ -116,6 +117,7 @@
                                             <t t-esc="o.currency_id.symbol"/>
                                         </t>
                                     </td>
+                                    <td style="border:1px solid #000; padding:5px; text-align:center;">1</td>
                                     <td style="border:1px solid #000; padding:5px;">
                                         <t t-if="o.visit_type == 'procedure'">
                                             <t t-esc="o.operation_total"/>

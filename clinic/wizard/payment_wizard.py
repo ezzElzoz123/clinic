@@ -9,6 +9,16 @@ class AdvancePaymentWizard(models.TransientModel):
     amount = fields.Monetary(string="Advance Amount", required=True)
     currency_id = fields.Many2one(related='medical_visit_id.currency_id', readonly=True)
     journal_id = fields.Many2one('account.journal', string="Payment Journal", required=True)
+    insurance_company_id = fields.Many2one('insurance.company', string="Insurance Company")
+    insurance_percentage = fields.Float(string="Insurance Coverage %")
+    insurance_amount = fields.Monetary(string="Insurance Amount", compute="_compute_insurance_amount")
+    patient_amount = fields.Monetary(string="Patient Amount", compute="_compute_insurance_amount")
+
+    @api.depends('insurance_percentage')
+    def _compute_insurance_amount(self):
+        for rec in self:
+            rec.insurance_amount = rec.medical_visit_id.total_cost * (rec.insurance_percentage / 100)
+            rec.patient_amount = rec.medical_visit_id.total_cost - rec.insurance_amount
 
     @api.model
     def default_get(self, fields_list):
@@ -51,4 +61,13 @@ class AdvancePaymentWizard(models.TransientModel):
         visit.advance_payment_ids |= payment
         visit.advance_payment_amount += self.amount
 
-        return {'type': 'ir.actions.act_window_close'}
+        return {
+            'type': 'ir.actions.client',
+            'tag': 'display_notification',
+            'params': {
+                'title': _('Success'),
+                'message': _('تم تأكيد الدفع بنجاح'),
+                'type': 'success',
+                'sticky': False,
+            }
+        }

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_insurance_company_tree" model="ir.ui.view">
+        <field name="name">insurance.company.tree</field>
+        <field name="model">insurance.company</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="start_date"/>
+                <field name="end_date"/>
+                <field name="state" widget="badge"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_insurance_company_form" model="ir.ui.view">
+        <field name="name">insurance.company.form</field>
+        <field name="model">insurance.company</field>
+        <field name="arch" type="xml">
+            <form string="Insurance Company">
+                <header>
+                    <button name="action_confirm" string="Confirm" type="object"
+                            states="draft" class="btn-primary"/>
+                    <button name="action_draft" string="Set to Draft" type="object"
+                            states="running,cancel"/>
+                    <button name="action_cancel" string="Cancel" type="object"
+                            states="draft,running"/>
+
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="draft,running,expired,cancel"/>
+                </header>
+
+                <sheet>
+                    <h2 style="width:100%;">
+                        <field name="name" attrs="{'readonly': [('state','!=','draft')]}"/>
+                    </h2>
+
+                    <div class="row">
+                        <div class="col-6">
+                               <group string="Validity Date">
+                                <field name="start_date" attrs="{'readonly':[('state','!=','draft')]}" required="1"/>
+                                <field name="end_date" attrs="{'readonly':[('state','!=','draft')]}" required="1"/>
+                            </group>
+                        </div>
+                        <div class="col-6">
+
+                        </div>
+                    </div>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="insurance_company_action" model="ir.actions.act_window">
+        <field name="name">Insurance Company</field>
+        <field name="res_model">insurance.company</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+</odoo>

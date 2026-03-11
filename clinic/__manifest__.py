@@ -12,6 +12,7 @@
     'data': [
         'security/ir.model.access.csv',
         'data/ir_sequence_data.xml',
+        'data/cron.xml',
         'wizard/payment_wizard_view.xml',
         'views/res_config_settings_view.xml',
         'views/medical_visit_view.xml',
@@ -20,6 +21,7 @@
         'views/medical_patient_view.xml',
         'views/medical_prescription_view.xml',
         'views/account_move_view.xml',
+        'views/insurance_company.xml',
         'views/menu_items.xml',
         'report/paper_fromat.xml',
         'report/prescription_view.xml',

@@ -8,11 +8,11 @@ class MedicalDoctor(models.Model):
 
     name = fields.Char(string="Doctor Name", tracking=True)
     age = fields.Integer(string="Age", tracking=True)
-    department_id = fields.Many2one('medical.department', string="Department", tracking=True)
+    department_id = fields.Many2one('medical.department', required=True, string="Department", tracking=True)
     gender = fields.Selection([
         ('male', 'Male'),
         ('female', 'Female'),
-    ], string="Gender", required=True, tracking=True)
+    ], string="Gender", tracking=True)
     phone_no = fields.Char(
         string="Phone Number",
         help="Enter the doctor's main contact number (e.g. mobile or landline).",
