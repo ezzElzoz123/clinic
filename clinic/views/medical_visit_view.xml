@@ -106,6 +106,7 @@
                                 <field name="price" attrs="{'invisible':[('visit_type','=','procedure')]}"/>
                                 <field name="currency_id" attrs="{'invisible':[('visit_type','=','procedure')]}"/>
                                 <field name="total_cost"/>
+                                <field name="advance_payment_amount" readonly="1"/>
                                 <field name="invoice_id" readonly="1"/>
                                 <field name="invoice_state" readonly="1"/>
                                 <field name="cancel_reason"
