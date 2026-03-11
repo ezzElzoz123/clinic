@@ -33,11 +33,12 @@ class AdvancePaymentWizard(models.TransientModel):
     def action_confirm(self):
         if self.amount <= 0 and self.insurance_percentage != 100:
             raise ValidationError(_("Paid amount should be positive number"))
-        if self.insurance_percentage <= 0 or self.insurance_percentage > 100:
-            if self.env.lang == 'en_us':
-                raise ValidationError(_("Insurance percentage should be between 0 and 100"))
-            else:
-                raise ValidationError(_("الرجاء إدخال نسبة تغطية صحيحة لشركة التأمين (من 0 إلى 100%)."))
+        if self.insurance_company_id:
+            if self.insurance_percentage <= 0 or self.insurance_percentage > 100:
+                if self.env.lang == 'en_us':
+                    raise ValidationError(_("Insurance percentage should be between 0 and 100"))
+                else:
+                    raise ValidationError(_("الرجاء إدخال نسبة تغطية صحيحة لشركة التأمين (من 0 إلى 100%)."))
         payment_method = self.journal_id.inbound_payment_method_line_ids[:1].payment_method_id
         visit = self.medical_visit_id
         if not visit.invoice_id:
