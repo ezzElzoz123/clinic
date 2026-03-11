@@ -10,7 +10,7 @@ class AdvancePaymentWizard(models.TransientModel):
     currency_id = fields.Many2one(related='medical_visit_id.currency_id', readonly=True)
     journal_id = fields.Many2one('account.journal', string="Payment Journal", required=True)
     insurance_company_id = fields.Many2one('insurance.company', string="Insurance Company")
-    insurance_percentage = fields.Float(string="Insurance Coverage %")
+    insurance_percentage = fields.Integer(string="Insurance Coverage %")
     insurance_amount = fields.Monetary(string="Insurance Amount", compute="_compute_insurance_amount")
     patient_amount = fields.Monetary(string="Patient Amount", compute="_compute_insurance_amount")
 
@@ -31,8 +31,13 @@ class AdvancePaymentWizard(models.TransientModel):
         return res
 
     def action_confirm(self):
-        if self.amount <= 0:
+        if self.amount <= 0 and self.insurance_percentage != 100:
             raise ValidationError(_("Paid amount should be positive number"))
+        if self.insurance_percentage <= 0 or self.insurance_percentage > 100:
+            if self.env.lang == 'en_us':
+                raise ValidationError(_("Insurance percentage should be between 0 and 100"))
+            else:
+                raise ValidationError(_("الرجاء إدخال نسبة تغطية صحيحة لشركة التأمين (من 0 إلى 100%)."))
         payment_method = self.journal_id.inbound_payment_method_line_ids[:1].payment_method_id
         visit = self.medical_visit_id
         if not visit.invoice_id:
@@ -47,6 +52,7 @@ class AdvancePaymentWizard(models.TransientModel):
             'payment_method_line_id': self.journal_id.inbound_payment_method_line_ids[:1].id,
             'ref': f'Advance Payment for {self.medical_visit_id.patient_id.name}',
         })
+        visit.has_insurance = True
         payment.action_post()
         if invoice.state == 'draft':
             invoice.action_post()

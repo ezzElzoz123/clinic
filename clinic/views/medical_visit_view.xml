@@ -79,6 +79,7 @@
                         <page string="Personal Data">
                             <group>
                                 <field name="patient_id" options="{'no_quick_create': True}"/>
+                                <field name="has_insurance" invisible="1"/>
                                 <field name="age"/>
                                 <field name="gender"/>
                                 <field name="marital_status"/>

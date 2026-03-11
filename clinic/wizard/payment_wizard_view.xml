@@ -13,7 +13,7 @@
                     <field name="journal_id" domain="[('type', '=', 'cash')]"
                            options="{'no_create':True,'no_quick_create':True, 'no_open':True}" invisible="1"/>
                     <field name="insurance_company_id"
-                           domain="[('state','=','running')]"/>
+                           domain="[('state','=','running')]" options="{'no_quick_create':True, 'no_open':True}" />
                     <field name="insurance_percentage"
                            attrs="{'invisible': [('insurance_company_id','=',False)],
                                    'required': [('insurance_company_id','!=',False)]}"/>

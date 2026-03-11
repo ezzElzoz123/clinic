@@ -15,6 +15,7 @@ class MedicalVisit(models.Model):
     # 🔹 Basic Info
     # =========================
     patient_id = fields.Many2one('medical.patient', string="Patient", required=True, tracking=True)
+    has_insurance = fields.Boolean('مؤمن عليه', tracking=True)
     company_id = fields.Many2one('res.company', string="Clinic", default=lambda self: self.env.company.id)
     doctor_id = fields.Many2one('medical.doctor', string="Doctor", required=True, tracking=True)
     available_doctor_ids = fields.Many2many('medical.doctor', string="Doctors", compute='_compute_available_doctor_ids')
