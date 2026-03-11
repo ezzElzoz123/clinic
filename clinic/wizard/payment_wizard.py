@@ -60,14 +60,3 @@ class AdvancePaymentWizard(models.TransientModel):
 
         visit.advance_payment_ids |= payment
         visit.advance_payment_amount += self.amount
-
-        return {
-            'type': 'ir.actions.client',
-            'tag': 'display_notification',
-            'params': {
-                'title': _('Success'),
-                'message': _('تم تأكيد الدفع بنجاح'),
-                'type': 'success',
-                'sticky': False,
-            }
-        }
