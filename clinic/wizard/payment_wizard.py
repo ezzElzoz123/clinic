@@ -66,3 +66,8 @@ class AdvancePaymentWizard(models.TransientModel):
 
         visit.advance_payment_ids |= payment
         visit.advance_payment_amount += self.amount
+        if visit.advance_payment_amount >= visit.total_cost:
+            if self.env.lang == 'en_US':
+                raise ValidationError(_("The visit is already fully paid. No additional payment can be added."))
+            else:
+                raise ValidationError(_("لا يمكن إضافة دفعة جديدة، فقد تم سداد كامل تكلفة الكشف."))

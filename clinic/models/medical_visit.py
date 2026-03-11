@@ -130,7 +130,7 @@ class MedicalVisit(models.Model):
     currency_id = fields.Many2one('res.currency', string="Currency",
                                   default=lambda self: self.env.company.currency_id, required=True, tracking=True)
     advance_payment_ids = fields.Many2many('account.payment', string="Advance Payment")
-    advance_payment_amount = fields.Monetary(string="المبلغ المدفوع")
+    advance_payment_amount = fields.Float(string="المبلغ المدفوع")
     total_cost = fields.Float(string="Total Cost", compute="_compute_total_cost", store=True)
     invoice_id = fields.Many2one('account.move', string="Invoice", readonly=True, ondelete="set null", tracking=True)
     invoice_state = fields.Selection(
