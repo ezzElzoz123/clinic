@@ -5,24 +5,37 @@
         <field name="model">advance.payment.wizard</field>
         <field name="arch" type="xml">
             <form string="Advance Payment">
-                <group>
-                    <field name="medical_visit_id" invisible="1"
-                           options="{'no_create':True,'no_quick_create':True, 'no_open':True}"/>
-                    <field name="currency_id" invisible="1"
-                           options="{'no_create':True,'no_quick_create':True, 'no_open':True}"/>
-                    <field name="journal_id" domain="[('type', '=', 'cash')]"
-                           options="{'no_create':True,'no_quick_create':True, 'no_open':True}" invisible="1"/>
-                    <field name="insurance_company_id"
-                           domain="[('state','=','running')]" options="{'no_quick_create':True, 'no_open':True}" />
-                    <field name="insurance_percentage"
-                           attrs="{'invisible': [('insurance_company_id','=',False)],
-                                   'required': [('insurance_company_id','!=',False)]}"/>
-                    <field name="insurance_amount"
-                           readonly="1"
-                           attrs="{'invisible': [('insurance_company_id','=',False)]}"/>
-                    <field name="patient_amount"
-                           readonly="1"
-                           attrs="{'invisible': [('insurance_company_id','=',False)]}"/>
+<!--                <group>-->
+<!--                    <field name="medical_visit_id" invisible="1"-->
+<!--                           options="{'no_create':True,'no_quick_create':True, 'no_open':True}"/>-->
+<!--                    <field name="currency_id" invisible="1"-->
+<!--                           options="{'no_create':True,'no_quick_create':True, 'no_open':True}"/>-->
+<!--                    <field name="journal_id" domain="[('type', '=', 'cash')]"-->
+<!--                           options="{'no_create':True,'no_quick_create':True, 'no_open':True}" invisible="1"/>-->
+<!--                    <field name="insurance_company_id"-->
+<!--                           domain="[('state','=','running')]" options="{'no_quick_create':True, 'no_open':True}"/>-->
+<!--                    <field name="insurance_percentage"-->
+<!--                           attrs="{'invisible': [('insurance_company_id','=',False)],-->
+<!--                                   'required': [('insurance_company_id','!=',False)]}"/>-->
+<!--                    <field name="insurance_amount"-->
+<!--                           readonly="1"-->
+<!--                           attrs="{'invisible': [('insurance_company_id','=',False)]}"/>-->
+<!--                    <field name="patient_amount"-->
+<!--                           readonly="1"-->
+<!--                           attrs="{'invisible': [('insurance_company_id','=',False)]}"/>-->
+<!--                    <field name="amount"/>-->
+<!--                </group>-->
+                <group string="Insurance">
+                    <field name="insurance_company_id" readonly="1"/>
+                    <field name="insurance_percentage" readonly="1"/>
+                </group>
+
+                <group string="Amounts">
+                    <field name="insurance_amount" readonly="1"/>
+                    <field name="patient_amount" readonly="1"/>
+                </group>
+
+                <group string="Payment">
                     <field name="amount"/>
                 </group>
                 <footer>

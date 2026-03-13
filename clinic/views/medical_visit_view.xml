@@ -72,6 +72,14 @@
                                 string="Advance Payments">
                             <field name="advance_payment_ids" widget="statinfo" string="Payments"/>
                         </button>
+                        <button name="action_view_invoice"
+                                type="object"
+                                string="Invoice"
+                                icon="fa-file-text-o"
+                                class="oe_stat_button"
+                                attrs="{'invisible':[('state','=','draft')]}">
+                            <!--                            <field name="invoice_id" widget="statinfo" string="Invoice"/>-->
+                        </button>
                     </div>
                     <notebook>
 
@@ -93,24 +101,33 @@
 
                         <!-- Page: Basic Info -->
                         <page string="Basic Info">
-                            <group>
+                            <group string="Visit Information">
                                 <field name="date"/>
                                 <field name="duration_minutes"/>
                                 <field name="date_end"/>
                                 <field name="visit_type"/>
                             </group>
-                            <group>
+
+                            <group string="Doctor Information">
                                 <field name="department_id"/>
-                                <field name="available_doctor_ids" invisible="1"/>
                                 <field name="doctor_id" domain="[('id','in',available_doctor_ids)]"/>
-                                <field name="price" attrs="{'invisible':[('visit_type','=','procedure')]}"/>
-                                <field name="currency_id" attrs="{'invisible':[('visit_type','=','procedure')]}"/>
+                                <field name="available_doctor_ids" invisible="1"/>
+                            </group>
+                        </page>
+                        <page string="Billing">
+                            <group string="Billing">
+                                <field name="price"/>
+                                <field name="currency_id"/>
                                 <field name="total_cost"/>
                                 <field name="advance_payment_amount" readonly="1"/>
-                                <field name="invoice_id" readonly="1"/>
+                                <field name="invoice_id" invisible="1"/>
                                 <field name="invoice_state" readonly="1"/>
-                                <field name="cancel_reason"
-                                       attrs="{'invisible': [('state','=','done')]}"/>
+                            </group>
+                            <group string="Insurance">
+                                <field name="insurance_company_id"/>
+                                <field name="insurance_percentage"/>
+                                <field name="insurance_amount" readonly="1"/>
+                                <field name="patient_amount" readonly="1"/>
                             </group>
                         </page>
 

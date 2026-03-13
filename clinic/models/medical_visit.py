@@ -15,7 +15,6 @@ class MedicalVisit(models.Model):
     # 🔹 Basic Info
     # =========================
     patient_id = fields.Many2one('medical.patient', string="Patient", required=True, tracking=True)
-    has_insurance = fields.Boolean('مؤمن عليه', tracking=True)
     company_id = fields.Many2one('res.company', string="Clinic", default=lambda self: self.env.company.id)
     doctor_id = fields.Many2one('medical.doctor', string="Doctor", required=True, tracking=True)
     available_doctor_ids = fields.Many2many('medical.doctor', string="Doctors", compute='_compute_available_doctor_ids')
@@ -130,7 +129,7 @@ class MedicalVisit(models.Model):
     currency_id = fields.Many2one('res.currency', string="Currency",
                                   default=lambda self: self.env.company.currency_id, required=True, tracking=True)
     advance_payment_ids = fields.Many2many('account.payment', string="Advance Payment")
-    advance_payment_amount = fields.Float(string="المبلغ المدفوع")
+    advance_payment_amount = fields.Float(string="Paid Amount")
     total_cost = fields.Float(string="Total Cost", compute="_compute_total_cost", store=True)
     invoice_id = fields.Many2one('account.move', string="Invoice", readonly=True, ondelete="set null", tracking=True)
     invoice_state = fields.Selection(
@@ -161,6 +160,29 @@ class MedicalVisit(models.Model):
         ('done', 'Done'),
         ('cancel', 'Cancelled'),
     ], string="Status", default="draft", tracking=True)
+    # =========================
+    # 🔹 Insurance
+    # =========================
+    has_insurance = fields.Boolean('Has Insurance', tracking=True)
+    insurance_company_id = fields.Many2one(
+        'insurance.company',
+        string="Insurance Company",
+        tracking=True
+    )
+    insurance_percentage = fields.Integer(
+        string="Insurance Coverage %",
+        tracking=True
+    )
+    insurance_amount = fields.Monetary(
+        string="Insurance Amount",
+        compute="_compute_insurance_amount",
+        store=True
+    )
+    patient_amount = fields.Monetary(
+        string="Patient Amount",
+        compute="_compute_insurance_amount",
+        store=True
+    )
 
     # =========================
     # 🔹 COMPUTE METHODS
@@ -212,6 +234,16 @@ class MedicalVisit(models.Model):
                 lambda d: any(s.day_of_week == day_name and s.start_time <= visit_float <= s.end_time for s in d.schedule_ids)
             )
             rec.available_doctor_ids = available
+
+    @api.depends('insurance_percentage', 'total_cost')
+    def _compute_insurance_amount(self):
+        for rec in self:
+            if rec.insurance_company_id:
+                rec.insurance_amount = rec.total_cost * (rec.insurance_percentage / 100)
+            else:
+                rec.insurance_amount = 0.0
+
+            rec.patient_amount = rec.total_cost - rec.insurance_amount
 
     # =========================
     # 🔹 ONCHANGE & CONSTRAINS
@@ -269,6 +301,12 @@ class MedicalVisit(models.Model):
         for rec in self:
             rec.doctor_id = False
 
+    @api.constrains('insurance_percentage')
+    def _check_insurance_percentage(self):
+        for rec in self:
+            if rec.insurance_percentage < 0 or rec.insurance_percentage > 100:
+                raise ValidationError(_("Insurance percentage must be between 0 and 100"))
+
     # =========================
     # 🔹 ACTIONS
     # =========================
@@ -277,20 +315,36 @@ class MedicalVisit(models.Model):
             if rec.invoice_id:
                 raise ValidationError(_("Invoice already created for this visit."))
 
-            invoice_vals = {
-                'move_type': 'out_invoice',
-                'partner_id': rec.patient_id.id,
-                'payment_ids': rec.advance_payment_ids.ids,
-                'invoice_date': rec.date.date(),
-                'invoice_line_ids': [(0, 0, {
+            lines = [
+                (0, 0, {
                     'name': f"Medical Visit ({rec.visit_type})",
                     'quantity': 1,
                     'price_unit': rec.total_cost,
                     'currency_id': rec.currency_id.id,
                     'tax_ids': False,
-                })],
+                })
+            ]
+
+            if rec.insurance_amount:
+                lines.append(
+                    (0, 0, {
+                        'name': 'Insurance Coverage',
+                        'quantity': 1,
+                        'price_unit': -rec.insurance_amount,
+                        'currency_id': rec.currency_id.id,
+                        'tax_ids': False,
+                    })
+                )
+
+            invoice_vals = {
+                'move_type': 'out_invoice',
+                'partner_id': rec.patient_id.partner_id.id,
+                'invoice_date': rec.date.date(),
+                'invoice_line_ids': lines,
             }
+
             invoice = self.env['account.move'].create(invoice_vals)
+
             rec.invoice_id = invoice.id
             rec.state = 'invoiced'
 
@@ -349,6 +403,20 @@ class MedicalVisit(models.Model):
             'context': {
                 'default_medical_visit_id': self.id,
             },
+        }
+
+    def action_view_invoice(self):
+        self.ensure_one()
+        if not self.invoice_id:
+            # لو مفيش فاتورة، اعمل واحدة
+            return self.action_create_invoice()
+        # لو موجودة فاتورة، افتحها
+        return {
+            'name': _("Invoice"),
+            'view_mode': 'form',
+            'res_model': 'account.move',
+            'res_id': self.invoice_id.id,
+            'type': 'ir.actions.act_window',
         }
 
 

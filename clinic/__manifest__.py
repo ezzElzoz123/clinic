@@ -9,6 +9,7 @@
     'depends': [
         'base', 'base_setup', 'purchase', 'account_accountant', 'hr', 'sale_management', 'stock'
     ],
+    # موديول المحاسبة هنزل اخوه الكوميونتي من اودو ابس علشان يشتغل كوميونتي
     'data': [
         'security/ir.model.access.csv',
         'data/ir_sequence_data.xml',
