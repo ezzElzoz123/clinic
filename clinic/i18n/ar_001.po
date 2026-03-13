@@ -6,14 +6,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e-20250909\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-09 17:07+0000\n"
-"PO-Revision-Date: 2026-03-09 17:07+0000\n"
+"POT-Creation-Date: 2026-03-13 13:54+0000\n"
+"PO-Revision-Date: 2026-03-13 16:10+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
+"Language: ar_001\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: \n"
-"Plural-Forms: \n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=(n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5);\n"
+"X-Generator: Poedit 3.9\n"
 
 #. module: clinic
 #: model:ir.actions.report,print_report_name:clinic.action_report_medical_visit_custom_medical_invoice
@@ -76,6 +78,7 @@ msgid "<strong>المريض:</strong>"
 msgstr ""
 
 #. module: clinic
+#: model:ir.model.fields,field_description:clinic.field_insurance_company__message_needaction
 #: model:ir.model.fields,field_description:clinic.field_medical_department__message_needaction
 #: model:ir.model.fields,field_description:clinic.field_medical_doctor__message_needaction
 #: model:ir.model.fields,field_description:clinic.field_medical_patient__message_needaction
@@ -85,6 +88,7 @@ msgid "Action Needed"
 msgstr ""
 
 #. module: clinic
+#: model:ir.model.fields,field_description:clinic.field_insurance_company__activity_ids
 #: model:ir.model.fields,field_description:clinic.field_medical_department__activity_ids
 #: model:ir.model.fields,field_description:clinic.field_medical_doctor__activity_ids
 #: model:ir.model.fields,field_description:clinic.field_medical_patient__activity_ids
@@ -94,6 +98,7 @@ msgid "Activities"
 msgstr ""
 
 #. module: clinic
+#: model:ir.model.fields,field_description:clinic.field_insurance_company__activity_exception_decoration
 #: model:ir.model.fields,field_description:clinic.field_medical_department__activity_exception_decoration
 #: model:ir.model.fields,field_description:clinic.field_medical_doctor__activity_exception_decoration
 #: model:ir.model.fields,field_description:clinic.field_medical_patient__activity_exception_decoration
@@ -103,6 +108,7 @@ msgid "Activity Exception Decoration"
 msgstr ""
 
 #. module: clinic
+#: model:ir.model.fields,field_description:clinic.field_insurance_company__activity_state
 #: model:ir.model.fields,field_description:clinic.field_medical_department__activity_state
 #: model:ir.model.fields,field_description:clinic.field_medical_doctor__activity_state
 #: model:ir.model.fields,field_description:clinic.field_medical_patient__activity_state
@@ -112,6 +118,7 @@ msgid "Activity State"
 msgstr ""
 
 #. module: clinic
+#: model:ir.model.fields,field_description:clinic.field_insurance_company__activity_type_icon
 #: model:ir.model.fields,field_description:clinic.field_medical_department__activity_type_icon
 #: model:ir.model.fields,field_description:clinic.field_medical_doctor__activity_type_icon
 #: model:ir.model.fields,field_description:clinic.field_medical_patient__activity_type_icon
@@ -129,7 +136,6 @@ msgstr "العنوان"
 
 #. module: clinic
 #: model:ir.model.fields,field_description:clinic.field_advance_payment_wizard__amount
-#: model:ir.model.fields,field_description:clinic.field_medical_visit__advance_payment_amount
 msgid "Advance Amount"
 msgstr "المبلغ"
 
@@ -171,6 +177,12 @@ msgid "Allergies"
 msgstr "حساسية"
 
 #. module: clinic
+#: model_terms:ir.ui.view,arch_db:clinic.view_advance_payment_wizard_form
+msgid "Amounts"
+msgstr "الكميات"
+
+#. module: clinic
+#: model:ir.model.fields,field_description:clinic.field_insurance_company__message_attachment_count
 #: model:ir.model.fields,field_description:clinic.field_medical_department__message_attachment_count
 #: model:ir.model.fields,field_description:clinic.field_medical_doctor__message_attachment_count
 #: model:ir.model.fields,field_description:clinic.field_medical_patient__message_attachment_count
@@ -195,6 +207,11 @@ msgid "Basic Info"
 msgstr "المعلومات الاساسية"
 
 #. module: clinic
+#: model_terms:ir.ui.view,arch_db:clinic.view_medical_visit_form
+msgid "Billing"
+msgstr "الفاتورة والتأمين"
+
+#. module: clinic
 #: model:ir.model.fields,field_description:clinic.field_medical_visit__birth_date
 msgid "Birth Date"
 msgstr "تاريخ الميلاد"
@@ -206,6 +223,7 @@ msgstr "ضغط الدم"
 
 #. module: clinic
 #: model_terms:ir.ui.view,arch_db:clinic.view_advance_payment_wizard_form
+#: model_terms:ir.ui.view,arch_db:clinic.view_insurance_company_form
 #: model_terms:ir.ui.view,arch_db:clinic.view_medical_visit_form
 msgid "Cancel"
 msgstr "إلغاء"
@@ -216,6 +234,7 @@ msgid "Cancellation Reason"
 msgstr "سبب الإلغاء"
 
 #. module: clinic
+#: model:ir.model.fields.selection,name:clinic.selection__insurance_company__state__cancel
 #: model:ir.model.fields.selection,name:clinic.selection__medical_visit__state__cancel
 #: model_terms:ir.ui.view,arch_db:clinic.view_medical_visit_search
 msgid "Cancelled"
@@ -242,6 +261,11 @@ msgid "Code"
 msgstr "الكود"
 
 #. module: clinic
+#: model:ir.model.fields,field_description:clinic.field_insurance_company__name
+msgid "Company Name"
+msgstr "شركة التأمين"
+
+#. module: clinic
 #: model:ir.model.fields,field_description:clinic.field_medical_visit__complaint
 msgid "Complaint"
 msgstr "لشكوى"
@@ -258,6 +282,7 @@ msgstr "تهيئة الإعدادات "
 
 #. module: clinic
 #: model_terms:ir.ui.view,arch_db:clinic.view_advance_payment_wizard_form
+#: model_terms:ir.ui.view,arch_db:clinic.view_insurance_company_form
 msgid "Confirm"
 msgstr "تأكيد"
 
@@ -278,6 +303,7 @@ msgstr "طريقة منع الحمل"
 
 #. module: clinic
 #: model:ir.model.fields,field_description:clinic.field_advance_payment_wizard__create_uid
+#: model:ir.model.fields,field_description:clinic.field_insurance_company__create_uid
 #: model:ir.model.fields,field_description:clinic.field_medical_department__create_uid
 #: model:ir.model.fields,field_description:clinic.field_medical_doctor__create_uid
 #: model:ir.model.fields,field_description:clinic.field_medical_doctor_schedule__create_uid
@@ -291,6 +317,7 @@ msgstr "تم إنشائه بواسطة"
 
 #. module: clinic
 #: model:ir.model.fields,field_description:clinic.field_advance_payment_wizard__create_date
+#: model:ir.model.fields,field_description:clinic.field_insurance_company__create_date
 #: model:ir.model.fields,field_description:clinic.field_medical_department__create_date
 #: model:ir.model.fields,field_description:clinic.field_medical_doctor__create_date
 #: model:ir.model.fields,field_description:clinic.field_medical_doctor_schedule__create_date
@@ -387,6 +414,7 @@ msgstr "بيانات الكشف"
 
 #. module: clinic
 #: model:ir.model.fields,field_description:clinic.field_advance_payment_wizard__display_name
+#: model:ir.model.fields,field_description:clinic.field_insurance_company__display_name
 #: model:ir.model.fields,field_description:clinic.field_medical_department__display_name
 #: model:ir.model.fields,field_description:clinic.field_medical_doctor__display_name
 #: model:ir.model.fields,field_description:clinic.field_medical_doctor_schedule__display_name
@@ -413,6 +441,11 @@ msgid "Doctor"
 msgstr "الدكتور"
 
 #. module: clinic
+#: model_terms:ir.ui.view,arch_db:clinic.view_medical_visit_form
+msgid "Doctor Information"
+msgstr "معلومات الدكتور"
+
+#. module: clinic
 #: model:ir.model.fields,field_description:clinic.field_medical_doctor__name
 msgid "Doctor Name"
 msgstr "اسم الدكتور"
@@ -420,7 +453,7 @@ msgstr "اسم الدكتور"
 #. module: clinic
 #: model:ir.model,name:clinic.model_medical_doctor_schedule
 msgid "Doctor Schedule"
-msgstr ""
+msgstr "مواعيد الدكتور"
 
 #. module: clinic
 #: model:ir.model.fields,field_description:clinic.field_medical_doctor__schedule_ids
@@ -449,6 +482,7 @@ msgid "Dosage Instructions"
 msgstr "جرعة الاستخدام"
 
 #. module: clinic
+#: model:ir.model.fields.selection,name:clinic.selection__insurance_company__state__draft
 #: model:ir.model.fields.selection,name:clinic.selection__medical_visit__state__draft
 #: model_terms:ir.ui.view,arch_db:clinic.view_medical_visit_search
 msgid "Draft"
@@ -468,6 +502,11 @@ msgstr "المدة بالدقائق"
 #: model:ir.model.fields,help:clinic.field_medical_visit__duration_minutes
 msgid "Duration of the visit in minutes"
 msgstr "مدة الكشف بالدقئائق"
+
+#. module: clinic
+#: model:ir.model.fields,field_description:clinic.field_insurance_company__end_date
+msgid "End Date"
+msgstr "تاريخ الانتهاء"
 
 #. module: clinic
 #: model:ir.model.fields,field_description:clinic.field_medical_doctor_schedule__end_time
@@ -510,6 +549,17 @@ msgid "Examination"
 msgstr "الفحوصات"
 
 #. module: clinic
+#: model:ir.actions.server,name:clinic.action_expire_cron_ir_actions_server
+#: model:ir.cron,cron_name:clinic.action_expire_cron
+msgid "Expire Insurance Company Contract"
+msgstr "فحص انتهاء شركة التأمين"
+
+#. module: clinic
+#: model:ir.model.fields.selection,name:clinic.selection__insurance_company__state__expired
+msgid "Expired"
+msgstr "منتهي"
+
+#. module: clinic
 #: model:ir.model.fields.selection,name:clinic.selection__medical_doctor__gender__female
 #: model:ir.model.fields.selection,name:clinic.selection__medical_patient__gender__female
 #: model:ir.model.fields.selection,name:clinic.selection__medical_visit__gender__female
@@ -522,6 +572,7 @@ msgid "Follow-up"
 msgstr "متابعة"
 
 #. module: clinic
+#: model:ir.model.fields,field_description:clinic.field_insurance_company__message_follower_ids
 #: model:ir.model.fields,field_description:clinic.field_medical_department__message_follower_ids
 #: model:ir.model.fields,field_description:clinic.field_medical_doctor__message_follower_ids
 #: model:ir.model.fields,field_description:clinic.field_medical_patient__message_follower_ids
@@ -531,6 +582,7 @@ msgid "Followers"
 msgstr "المتابعين"
 
 #. module: clinic
+#: model:ir.model.fields,field_description:clinic.field_insurance_company__message_partner_ids
 #: model:ir.model.fields,field_description:clinic.field_medical_department__message_partner_ids
 #: model:ir.model.fields,field_description:clinic.field_medical_doctor__message_partner_ids
 #: model:ir.model.fields,field_description:clinic.field_medical_patient__message_partner_ids
@@ -540,6 +592,7 @@ msgid "Followers (Partners)"
 msgstr "المتابعين"
 
 #. module: clinic
+#: model:ir.model.fields,help:clinic.field_insurance_company__activity_type_icon
 #: model:ir.model.fields,help:clinic.field_medical_department__activity_type_icon
 #: model:ir.model.fields,help:clinic.field_medical_doctor__activity_type_icon
 #: model:ir.model.fields,help:clinic.field_medical_patient__activity_type_icon
@@ -580,6 +633,12 @@ msgid "Gynecology Notes"
 msgstr "ملاحظات"
 
 #. module: clinic
+#: model:ir.model.fields,field_description:clinic.field_medical_visit__has_insurance
+msgid "Has Insurance"
+msgstr "مؤمن عليه"
+
+#. module: clinic
+#: model:ir.model.fields,field_description:clinic.field_insurance_company__has_message
 #: model:ir.model.fields,field_description:clinic.field_medical_department__has_message
 #: model:ir.model.fields,field_description:clinic.field_medical_doctor__has_message
 #: model:ir.model.fields,field_description:clinic.field_medical_patient__has_message
@@ -618,6 +677,7 @@ msgstr "ضغط الدم"
 
 #. module: clinic
 #: model:ir.model.fields,field_description:clinic.field_advance_payment_wizard__id
+#: model:ir.model.fields,field_description:clinic.field_insurance_company__id
 #: model:ir.model.fields,field_description:clinic.field_medical_department__id
 #: model:ir.model.fields,field_description:clinic.field_medical_doctor__id
 #: model:ir.model.fields,field_description:clinic.field_medical_doctor_schedule__id
@@ -635,6 +695,7 @@ msgid "IUD"
 msgstr ""
 
 #. module: clinic
+#: model:ir.model.fields,field_description:clinic.field_insurance_company__activity_exception_icon
 #: model:ir.model.fields,field_description:clinic.field_medical_department__activity_exception_icon
 #: model:ir.model.fields,field_description:clinic.field_medical_doctor__activity_exception_icon
 #: model:ir.model.fields,field_description:clinic.field_medical_patient__activity_exception_icon
@@ -644,6 +705,7 @@ msgid "Icon"
 msgstr ""
 
 #. module: clinic
+#: model:ir.model.fields,help:clinic.field_insurance_company__activity_exception_icon
 #: model:ir.model.fields,help:clinic.field_medical_department__activity_exception_icon
 #: model:ir.model.fields,help:clinic.field_medical_doctor__activity_exception_icon
 #: model:ir.model.fields,help:clinic.field_medical_patient__activity_exception_icon
@@ -653,6 +715,7 @@ msgid "Icon to indicate an exception activity."
 msgstr ""
 
 #. module: clinic
+#: model:ir.model.fields,help:clinic.field_insurance_company__message_needaction
 #: model:ir.model.fields,help:clinic.field_medical_department__message_needaction
 #: model:ir.model.fields,help:clinic.field_medical_doctor__message_needaction
 #: model:ir.model.fields,help:clinic.field_medical_patient__message_needaction
@@ -662,6 +725,8 @@ msgid "If checked, new messages require your attention."
 msgstr ""
 
 #. module: clinic
+#: model:ir.model.fields,help:clinic.field_insurance_company__message_has_error
+#: model:ir.model.fields,help:clinic.field_insurance_company__message_has_sms_error
 #: model:ir.model.fields,help:clinic.field_medical_department__message_has_error
 #: model:ir.model.fields,help:clinic.field_medical_department__message_has_sms_error
 #: model:ir.model.fields,help:clinic.field_medical_doctor__message_has_error
@@ -681,9 +746,50 @@ msgid "Implant"
 msgstr "لولب"
 
 #. module: clinic
+#: model_terms:ir.ui.view,arch_db:clinic.view_advance_payment_wizard_form
+#: model_terms:ir.ui.view,arch_db:clinic.view_medical_visit_form
+msgid "Insurance"
+msgstr "التأمين"
+
+#. module: clinic
+#: model:ir.model.fields,field_description:clinic.field_advance_payment_wizard__insurance_amount
+#: model:ir.model.fields,field_description:clinic.field_medical_visit__insurance_amount
+msgid "Insurance Amount"
+msgstr "قيمة تحمل شركة التأمين"
+
+#. module: clinic
+#: model:ir.ui.menu,name:clinic.menu_insurance_company
+msgid "Insurance Companies"
+msgstr "شركات التأمين"
+
+#. module: clinic
+#: model:ir.actions.act_window,name:clinic.insurance_company_action
+#: model:ir.model,name:clinic.model_insurance_company
+#: model:ir.model.fields,field_description:clinic.field_advance_payment_wizard__insurance_company_id
+#: model:ir.model.fields,field_description:clinic.field_medical_visit__insurance_company_id
+#: model_terms:ir.ui.view,arch_db:clinic.view_insurance_company_form
+msgid "Insurance Company"
+msgstr "شركات التأمين"
+
+#. module: clinic
+#: model:ir.model.fields,field_description:clinic.field_advance_payment_wizard__insurance_percentage
+#: model:ir.model.fields,field_description:clinic.field_medical_visit__insurance_percentage
+msgid "Insurance Coverage %"
+msgstr "نسبة تغطية التأمين"
+
+#. module: clinic
+#. odoo-python
+#: code:addons/clinic/models/medical_visit.py:0
+#: code:addons/clinic/wizard/payment_wizard.py:0
+#, python-format
+msgid "Insurance percentage must be between 0 and 100"
+msgstr "الرجاء إدخال نسبة تغطية صحيحة لشركة التأمين (من 0 إلى 100%)."
+
+#. module: clinic
 #. odoo-python
 #: code:addons/clinic/models/medical_visit.py:0
 #: model:ir.model.fields,field_description:clinic.field_medical_visit__invoice_id
+#: model_terms:ir.ui.view,arch_db:clinic.view_medical_visit_form
 #, python-format
 msgid "Invoice"
 msgstr "الفاتورة"
@@ -706,9 +812,10 @@ msgstr "تم إنشاء فاتورة لهذا المريض بالفعل"
 #: model:ir.model.fields.selection,name:clinic.selection__medical_visit__state__invoiced
 #: model_terms:ir.ui.view,arch_db:clinic.view_medical_visit_search
 msgid "Invoiced"
-msgstr "تم فوترته"
+msgstr "تم إصدار فاتورة"
 
 #. module: clinic
+#: model:ir.model.fields,field_description:clinic.field_insurance_company__message_is_follower
 #: model:ir.model.fields,field_description:clinic.field_medical_department__message_is_follower
 #: model:ir.model.fields,field_description:clinic.field_medical_doctor__message_is_follower
 #: model:ir.model.fields,field_description:clinic.field_medical_patient__message_is_follower
@@ -750,6 +857,7 @@ msgstr "تاريخ أخر دورة"
 
 #. module: clinic
 #: model:ir.model.fields,field_description:clinic.field_advance_payment_wizard____last_update
+#: model:ir.model.fields,field_description:clinic.field_insurance_company____last_update
 #: model:ir.model.fields,field_description:clinic.field_medical_department____last_update
 #: model:ir.model.fields,field_description:clinic.field_medical_doctor____last_update
 #: model:ir.model.fields,field_description:clinic.field_medical_doctor_schedule____last_update
@@ -763,6 +871,7 @@ msgstr "تاريخ أخر تعديل"
 
 #. module: clinic
 #: model:ir.model.fields,field_description:clinic.field_advance_payment_wizard__write_uid
+#: model:ir.model.fields,field_description:clinic.field_insurance_company__write_uid
 #: model:ir.model.fields,field_description:clinic.field_medical_department__write_uid
 #: model:ir.model.fields,field_description:clinic.field_medical_doctor__write_uid
 #: model:ir.model.fields,field_description:clinic.field_medical_doctor_schedule__write_uid
@@ -776,6 +885,7 @@ msgstr "أخر تعديل بواسطة"
 
 #. module: clinic
 #: model:ir.model.fields,field_description:clinic.field_advance_payment_wizard__write_date
+#: model:ir.model.fields,field_description:clinic.field_insurance_company__write_date
 #: model:ir.model.fields,field_description:clinic.field_medical_department__write_date
 #: model:ir.model.fields,field_description:clinic.field_medical_doctor__write_date
 #: model:ir.model.fields,field_description:clinic.field_medical_doctor_schedule__write_date
@@ -806,6 +916,7 @@ msgid "Low"
 msgstr "منخفض"
 
 #. module: clinic
+#: model:ir.model.fields,field_description:clinic.field_insurance_company__message_main_attachment_id
 #: model:ir.model.fields,field_description:clinic.field_medical_department__message_main_attachment_id
 #: model:ir.model.fields,field_description:clinic.field_medical_doctor__message_main_attachment_id
 #: model:ir.model.fields,field_description:clinic.field_medical_patient__message_main_attachment_id
@@ -927,6 +1038,7 @@ msgid "Menstrual History"
 msgstr "تاريخ الدورة الشهرية"
 
 #. module: clinic
+#: model:ir.model.fields,field_description:clinic.field_insurance_company__message_has_error
 #: model:ir.model.fields,field_description:clinic.field_medical_department__message_has_error
 #: model:ir.model.fields,field_description:clinic.field_medical_doctor__message_has_error
 #: model:ir.model.fields,field_description:clinic.field_medical_patient__message_has_error
@@ -936,6 +1048,7 @@ msgid "Message Delivery error"
 msgstr ""
 
 #. module: clinic
+#: model:ir.model.fields,field_description:clinic.field_insurance_company__message_ids
 #: model:ir.model.fields,field_description:clinic.field_medical_department__message_ids
 #: model:ir.model.fields,field_description:clinic.field_medical_doctor__message_ids
 #: model:ir.model.fields,field_description:clinic.field_medical_patient__message_ids
@@ -956,6 +1069,7 @@ msgid "Monday"
 msgstr "الاثنين"
 
 #. module: clinic
+#: model:ir.model.fields,field_description:clinic.field_insurance_company__my_activity_date_deadline
 #: model:ir.model.fields,field_description:clinic.field_medical_department__my_activity_date_deadline
 #: model:ir.model.fields,field_description:clinic.field_medical_doctor__my_activity_date_deadline
 #: model:ir.model.fields,field_description:clinic.field_medical_patient__my_activity_date_deadline
@@ -970,6 +1084,7 @@ msgid "National Identity"
 msgstr "الرقم القومي"
 
 #. module: clinic
+#: model:ir.model.fields,field_description:clinic.field_insurance_company__activity_calendar_event_id
 #: model:ir.model.fields,field_description:clinic.field_medical_department__activity_calendar_event_id
 #: model:ir.model.fields,field_description:clinic.field_medical_doctor__activity_calendar_event_id
 #: model:ir.model.fields,field_description:clinic.field_medical_patient__activity_calendar_event_id
@@ -979,6 +1094,7 @@ msgid "Next Activity Calendar Event"
 msgstr ""
 
 #. module: clinic
+#: model:ir.model.fields,field_description:clinic.field_insurance_company__activity_date_deadline
 #: model:ir.model.fields,field_description:clinic.field_medical_department__activity_date_deadline
 #: model:ir.model.fields,field_description:clinic.field_medical_doctor__activity_date_deadline
 #: model:ir.model.fields,field_description:clinic.field_medical_patient__activity_date_deadline
@@ -988,6 +1104,7 @@ msgid "Next Activity Deadline"
 msgstr ""
 
 #. module: clinic
+#: model:ir.model.fields,field_description:clinic.field_insurance_company__activity_summary
 #: model:ir.model.fields,field_description:clinic.field_medical_department__activity_summary
 #: model:ir.model.fields,field_description:clinic.field_medical_doctor__activity_summary
 #: model:ir.model.fields,field_description:clinic.field_medical_patient__activity_summary
@@ -997,6 +1114,7 @@ msgid "Next Activity Summary"
 msgstr ""
 
 #. module: clinic
+#: model:ir.model.fields,field_description:clinic.field_insurance_company__activity_type_id
 #: model:ir.model.fields,field_description:clinic.field_medical_department__activity_type_id
 #: model:ir.model.fields,field_description:clinic.field_medical_doctor__activity_type_id
 #: model:ir.model.fields,field_description:clinic.field_medical_patient__activity_type_id
@@ -1021,6 +1139,7 @@ msgid "Notes"
 msgstr "الملاحظات"
 
 #. module: clinic
+#: model:ir.model.fields,field_description:clinic.field_insurance_company__message_needaction_counter
 #: model:ir.model.fields,field_description:clinic.field_medical_department__message_needaction_counter
 #: model:ir.model.fields,field_description:clinic.field_medical_doctor__message_needaction_counter
 #: model:ir.model.fields,field_description:clinic.field_medical_patient__message_needaction_counter
@@ -1030,6 +1149,7 @@ msgid "Number of Actions"
 msgstr ""
 
 #. module: clinic
+#: model:ir.model.fields,field_description:clinic.field_insurance_company__message_has_error_counter
 #: model:ir.model.fields,field_description:clinic.field_medical_department__message_has_error_counter
 #: model:ir.model.fields,field_description:clinic.field_medical_doctor__message_has_error_counter
 #: model:ir.model.fields,field_description:clinic.field_medical_patient__message_has_error_counter
@@ -1039,6 +1159,7 @@ msgid "Number of errors"
 msgstr ""
 
 #. module: clinic
+#: model:ir.model.fields,help:clinic.field_insurance_company__message_needaction_counter
 #: model:ir.model.fields,help:clinic.field_medical_department__message_needaction_counter
 #: model:ir.model.fields,help:clinic.field_medical_doctor__message_needaction_counter
 #: model:ir.model.fields,help:clinic.field_medical_patient__message_needaction_counter
@@ -1048,6 +1169,7 @@ msgid "Number of messages requiring action"
 msgstr ""
 
 #. module: clinic
+#: model:ir.model.fields,help:clinic.field_insurance_company__message_has_error_counter
 #: model:ir.model.fields,help:clinic.field_medical_department__message_has_error_counter
 #: model:ir.model.fields,help:clinic.field_medical_doctor__message_has_error_counter
 #: model:ir.model.fields,help:clinic.field_medical_patient__message_has_error_counter
@@ -1078,11 +1200,9 @@ msgid "Other Info"
 msgstr "معلومات أخرى"
 
 #. module: clinic
-#. odoo-python
-#: code:addons/clinic/wizard/payment_wizard.py:0
-#, python-format
-msgid "Paid amount should be positive number"
-msgstr "يجب أن يكون المبلغ المدفوع أكبر من صفر"
+#: model:ir.model.fields,field_description:clinic.field_medical_visit__advance_payment_amount
+msgid "Paid Amount"
+msgstr "المبلغ"
 
 #. module: clinic
 #: model:ir.model,name:clinic.model_medical_patient
@@ -1092,11 +1212,22 @@ msgid "Patient"
 msgstr "المريض"
 
 #. module: clinic
+#: model:ir.model.fields,field_description:clinic.field_advance_payment_wizard__patient_amount
+#: model:ir.model.fields,field_description:clinic.field_medical_visit__patient_amount
+msgid "Patient Amount"
+msgstr "قيمة تحمل المريض"
+
+#. module: clinic
 #: model:ir.actions.act_window,name:clinic.action_medical_patient
 #: model:ir.ui.menu,name:clinic.menu_medical_patient
 #: model_terms:ir.ui.view,arch_db:clinic.view_medical_patient_tree
 msgid "Patients"
 msgstr "المرضى"
+
+#. module: clinic
+#: model_terms:ir.ui.view,arch_db:clinic.view_advance_payment_wizard_form
+msgid "Payment"
+msgstr "المدفوعات"
 
 #. module: clinic
 #: model:ir.model.fields,field_description:clinic.field_advance_payment_wizard__journal_id
@@ -1107,6 +1238,20 @@ msgstr "طريقة الدفع"
 #: model:ir.model.fields,field_description:clinic.field_medical_visit__invoice_state
 msgid "Payment Status"
 msgstr "حالة الدفع"
+
+#. module: clinic
+#. odoo-python
+#: code:addons/clinic/wizard/payment_wizard.py:0
+#, python-format
+msgid "Payment amount must be greater than zero"
+msgstr "يجب أن يكون مبلغ الدفع أكبر من صفر."
+
+#. module: clinic
+#. odoo-python
+#: code:addons/clinic/wizard/payment_wizard.py:0
+#, python-format
+msgid "Payment exceeds the patient's due amount"
+msgstr "مبلغ الدفع يتجاوز المبلغ مستحق على المريض."
 
 #. module: clinic
 #: model_terms:ir.ui.view,arch_db:clinic.view_medical_visit_form
@@ -1238,6 +1383,7 @@ msgid "Related Partner"
 msgstr "الفرد"
 
 #. module: clinic
+#: model:ir.model.fields,field_description:clinic.field_insurance_company__activity_user_id
 #: model:ir.model.fields,field_description:clinic.field_medical_department__activity_user_id
 #: model:ir.model.fields,field_description:clinic.field_medical_doctor__activity_user_id
 #: model:ir.model.fields,field_description:clinic.field_medical_patient__activity_user_id
@@ -1247,6 +1393,12 @@ msgid "Responsible User"
 msgstr "المسئول"
 
 #. module: clinic
+#: model:ir.model.fields.selection,name:clinic.selection__insurance_company__state__running
+msgid "Running"
+msgstr "جاري"
+
+#. module: clinic
+#: model:ir.model.fields,field_description:clinic.field_insurance_company__message_has_sms_error
 #: model:ir.model.fields,field_description:clinic.field_medical_department__message_has_sms_error
 #: model:ir.model.fields,field_description:clinic.field_medical_doctor__message_has_sms_error
 #: model:ir.model.fields,field_description:clinic.field_medical_patient__message_has_sms_error
@@ -1276,6 +1428,16 @@ msgid "Search Patients"
 msgstr "بحث عن مريض"
 
 #. module: clinic
+#: model:ir.model.fields,field_description:clinic.field_insurance_company__sequence
+msgid "Sequence"
+msgstr "الرقم المسلسل"
+
+#. module: clinic
+#: model_terms:ir.ui.view,arch_db:clinic.view_insurance_company_form
+msgid "Set to Draft"
+msgstr "إرجاع للمسودة"
+
+#. module: clinic
 #: model:ir.model.fields.selection,name:clinic.selection__medical_visit__marital_status__single
 msgid "Single"
 msgstr "أعزب"
@@ -1285,6 +1447,11 @@ msgstr "أعزب"
 #: model:ir.model.fields,field_description:clinic.field_medical_visit__smoking
 msgid "Smoker"
 msgstr "مدخن"
+
+#. module: clinic
+#: model:ir.model.fields,field_description:clinic.field_insurance_company__start_date
+msgid "Start Date"
+msgstr "تاريخ البداية"
 
 #. module: clinic
 #: model:ir.model.fields,field_description:clinic.field_medical_doctor_schedule__start_time
@@ -1297,6 +1464,11 @@ msgid "Start hour in 24h format, e.g. 9.0 = 09:00 AM"
 msgstr "وقت البدء"
 
 #. module: clinic
+#: model:ir.model.fields,field_description:clinic.field_insurance_company__state
+msgid "State"
+msgstr "الحالة"
+
+#. module: clinic
 #: model_terms:ir.ui.view,arch_db:clinic.view_medical_visit_form
 msgid "Statistics"
 msgstr "الإحصائيات"
@@ -1307,6 +1479,7 @@ msgid "Status"
 msgstr "الحالة"
 
 #. module: clinic
+#: model:ir.model.fields,help:clinic.field_insurance_company__activity_state
 #: model:ir.model.fields,help:clinic.field_medical_department__activity_state
 #: model:ir.model.fields,help:clinic.field_medical_doctor__activity_state
 #: model:ir.model.fields,help:clinic.field_medical_patient__activity_state
@@ -1356,6 +1529,7 @@ msgid "Tuesday"
 msgstr "الثلاثاء"
 
 #. module: clinic
+#: model:ir.model.fields,help:clinic.field_insurance_company__activity_exception_decoration
 #: model:ir.model.fields,help:clinic.field_medical_department__activity_exception_decoration
 #: model:ir.model.fields,help:clinic.field_medical_doctor__activity_exception_decoration
 #: model:ir.model.fields,help:clinic.field_medical_patient__activity_exception_decoration
@@ -1376,6 +1550,11 @@ msgid "Used Products"
 msgstr "المنتجات المستخدمة"
 
 #. module: clinic
+#: model_terms:ir.ui.view,arch_db:clinic.view_insurance_company_form
+msgid "Validity Date"
+msgstr "مدة صلاحية التأمين"
+
+#. module: clinic
 #: model:ir.model.fields,field_description:clinic.field_medical_operation_line__visit_id
 #: model:ir.model.fields,field_description:clinic.field_medical_visit_product_line__visit_id
 msgid "Visit"
@@ -1385,6 +1564,11 @@ msgstr "الكشف"
 #: model:ir.model.fields,field_description:clinic.field_medical_visit__date
 msgid "Visit Date"
 msgstr "تاريخ الكشف"
+
+#. module: clinic
+#: model_terms:ir.ui.view,arch_db:clinic.view_medical_visit_form
+msgid "Visit Information"
+msgstr "معلومات الكشف"
 
 #. module: clinic
 #: model:ir.model.fields,field_description:clinic.field_medical_visit__visit_type
@@ -1400,6 +1584,7 @@ msgid "Visits"
 msgstr "الكشوفات"
 
 #. module: clinic
+#: model:ir.model.fields,field_description:clinic.field_insurance_company__website_message_ids
 #: model:ir.model.fields,field_description:clinic.field_medical_department__website_message_ids
 #: model:ir.model.fields,field_description:clinic.field_medical_doctor__website_message_ids
 #: model:ir.model.fields,field_description:clinic.field_medical_patient__website_message_ids
@@ -1409,6 +1594,7 @@ msgid "Website Messages"
 msgstr ""
 
 #. module: clinic
+#: model:ir.model.fields,help:clinic.field_insurance_company__website_message_ids
 #: model:ir.model.fields,help:clinic.field_medical_department__website_message_ids
 #: model:ir.model.fields,help:clinic.field_medical_doctor__website_message_ids
 #: model:ir.model.fields,help:clinic.field_medical_patient__website_message_ids
@@ -1441,6 +1627,11 @@ msgstr "صحة الأنثى"
 #: model:ir.model.fields,field_description:clinic.field_medical_visit__xray_attachment_ids
 msgid "X-Ray Attachments"
 msgstr "الأشعات السابقة"
+
+#. module: clinic
+#: model_terms:ir.ui.view,arch_db:clinic.report_medical_invoice
+msgid "إعادة"
+msgstr ""
 
 #. module: clinic
 #: model_terms:ir.ui.view,arch_db:clinic.report_medical_invoice
@@ -1490,6 +1681,11 @@ msgstr ""
 #. module: clinic
 #: model_terms:ir.ui.view,arch_db:clinic.report_medical_invoice
 msgid "فاتورة رقم:"
+msgstr ""
+
+#. module: clinic
+#: model_terms:ir.ui.view,arch_db:clinic.report_medical_invoice
+msgid "كشف"
 msgstr ""
 
 #. module: clinic
