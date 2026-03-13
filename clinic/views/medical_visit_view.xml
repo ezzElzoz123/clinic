@@ -28,7 +28,8 @@
                 <field name="doctor_id"/>
                 <field name="visit_type"/>
                 <field name="state"/>
-                <field name="price"/>
+                <field name="advance_payment_amount"/>
+                <field name="total_cost"/>
                 <field name="invoice_state"/>
             </tree>
         </field>

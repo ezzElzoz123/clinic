@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e-20250909\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-03-13 13:54+0000\n"
-"PO-Revision-Date: 2026-03-13 16:10+0200\n"
+"PO-Revision-Date: 2026-03-13 16:26+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ar_001\n"
@@ -137,7 +137,7 @@ msgstr "العنوان"
 #. module: clinic
 #: model:ir.model.fields,field_description:clinic.field_advance_payment_wizard__amount
 msgid "Advance Amount"
-msgstr "المبلغ"
+msgstr "المبلغ المدفوع"
 
 #. module: clinic
 #: model:ir.actions.act_window,name:clinic.action_advance_payment_wizard
@@ -1202,7 +1202,7 @@ msgstr "معلومات أخرى"
 #. module: clinic
 #: model:ir.model.fields,field_description:clinic.field_medical_visit__advance_payment_amount
 msgid "Paid Amount"
-msgstr "المبلغ"
+msgstr "المبلغ المدفوع"
 
 #. module: clinic
 #: model:ir.model,name:clinic.model_medical_patient
