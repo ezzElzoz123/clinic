@@ -110,6 +110,11 @@ class MedicalVisit(models.Model):
         ('high', 'High'),
     ], string="Physical Activity Level", tracking=True)
     medical_history_notes = fields.Text(string="Medical History Notes", tracking=True)
+    has_medical_risk = fields.Boolean(
+        string="Has Medical Risk",
+        compute="_compute_has_medical_risk",
+        store=True
+    )
 
     # =========================
     # 🔹 Diagnosis & Treatment
@@ -244,6 +249,29 @@ class MedicalVisit(models.Model):
                 rec.insurance_amount = 0.0
 
             rec.patient_amount = rec.total_cost - rec.insurance_amount
+
+    @api.depends(
+        'has_diabetes',
+        'has_hypertension',
+        'has_heart_disease',
+        'has_kidney_disease',
+        'has_liver_disease',
+        'allergies',
+        'smoking',
+        'alcohol'
+    )
+    def _compute_has_medical_risk(self):
+        for rec in self:
+            rec.has_medical_risk = any([
+                rec.has_diabetes,
+                rec.has_hypertension,
+                rec.has_heart_disease,
+                rec.has_kidney_disease,
+                rec.has_liver_disease,
+                rec.smoking,
+                rec.alcohol,
+                bool(rec.allergies),
+            ])
 
     # =========================
     # 🔹 ONCHANGE & CONSTRAINS
@@ -385,8 +413,38 @@ class MedicalVisit(models.Model):
         for rec in self:
             if not rec.cancel_reason:
                 raise ValidationError("You should enter cancel reason before cancellation")
-            rec.state = 'cancel'
+            # 🧾 1. Reverse Invoice (Credit Note)
+            invoice = rec.invoice_id
+            if invoice and invoice.state == 'posted':
+                reverse_wizard = self.env['account.move.reversal'].create({
+                    'move_ids': [(6, 0, invoice.ids)],
+                    'reason': 'Cancel Medical Visit',
+                    'journal_id': invoice.journal_id.id,
+                    'date': fields.Date.today(),
+                })
+                reverse_result = reverse_wizard.reverse_moves()
+                credit_note = self.env['account.move'].browse(reverse_result['res_id'])
+                credit_note.action_post()
 
+                # optional: reconcile
+                (invoice.line_ids + credit_note.line_ids).filtered(
+                    lambda l: l.account_id == invoice.partner_id.property_account_receivable_id
+                              and not l.reconciled
+                ).reconcile()
+
+            # 💰 2. Reverse Payments
+            for payment in rec.advance_payment_ids:
+                if payment.state == 'posted' and payment.move_id:
+                    reverse_wizard = self.env['account.move.reversal'].create({
+                        'move_ids': [(6, 0, payment.move_id.ids)],
+                        'reason': f"Refund for {payment.ref}",
+                        'journal_id': payment.journal_id.id,
+                        'date': fields.Date.today(),
+                    })
+                    reverse_wizard.reverse_moves()
+
+            # 🔁 3. Update state
+            rec.state = 'cancel'
 
     # =========================
     # 🔹 SMART BUTTONS

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="clinic.ClinicSidebar" owl="1">
+        <div class="clinic-sidebar">
+            <img src="/clinic/static/src/img/clinic_logo.png" class="clinic-logo"/>
+            <ul>
+                <li><a href="#">Dashboard</a></li>
+                <li><a href="#">Patients</a></li>
+                <li><a href="#">Appointments</a></li>
+                <li><a href="#">Invoices</a></li>
+            </ul>
+        </div>
+    </t>
+</templates>

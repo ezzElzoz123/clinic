@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="clinic.DarkModeToggle" owl="1">
+        <li class="o_nav_entry" t-on-click="toggle"
+            style="cursor:pointer; padding: 0 10px; display:flex; align-items:center;">
+            <i t-attf-class="fa {{ state.dark ? 'fa-sun-o' : 'fa-moon-o' }}"
+               style="color: rgba(255,255,255,0.75); font-size: 16px;"/>
+        </li>
+    </t>
+</templates>

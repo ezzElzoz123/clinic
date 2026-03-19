@@ -7,7 +7,7 @@
     'license': 'AGPL-3',
     'sequence': 1,
     'depends': [
-        'base', 'base_setup', 'purchase', 'account_accountant', 'hr', 'sale_management', 'stock'
+        'base', 'base_setup', 'purchase', 'account_accountant', 'hr', 'sale_management', 'stock', 'web'
     ],
     # موديول المحاسبة هنزل اخوه الكوميونتي من اودو ابس علشان يشتغل كوميونتي
     'data': [
@@ -23,6 +23,7 @@
         'views/medical_prescription_view.xml',
         'views/account_move_view.xml',
         'views/insurance_company.xml',
+        # 'views/dashboard_templates.xml',
         'views/menu_items.xml',
         'report/paper_fromat.xml',
         'report/prescription_view.xml',
@@ -33,6 +34,15 @@
     'demo': [
         # 'demo/',
     ],
+    # 'assets': {
+    #     'web.assets_backend': [
+    #         'clinic/static/src/scss/clinic_theme.scss',
+    #         'clinic/static/src/js/dark_mode_toggle.js',
+    #         'clinic/static/src/js/clinic_side_bar.js',
+    #         'clinic/static/src/xml/dark_mode_toggle.xml',
+    #         'clinic/static/src/xml/clinic_sidebar.xml',
+    #     ],
+    # },
     'installable': True,
     'application': True,
     'auto_install': False,

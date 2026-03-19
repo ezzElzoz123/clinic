@@ -82,4 +82,13 @@ class AdvancePaymentWizard(models.TransientModel):
         ).reconcile()
         visit.advance_payment_ids |= payment
         visit.advance_payment_amount = new_total_paid
-        return {'type': 'ir.actions.act_window_close'}
+        return {
+            "type": "ir.actions.client",
+            "tag": "display_notification",
+            "params": {
+                "message": "Payment has been successfully registered.",
+                "type": "success",
+                "sticky": False,
+                'next': {'type': 'ir.actions.act_window_close'},
+            }
+        }

@@ -28,9 +28,9 @@
                 <field name="doctor_id"/>
                 <field name="visit_type"/>
                 <field name="state"/>
-                <field name="advance_payment_amount"/>
-                <field name="total_cost"/>
-                <field name="invoice_state"/>
+                <!--                <field name="advance_payment_amount"/>-->
+                <!--                <field name="total_cost"/>-->
+                <!--                <field name="invoice_state"/>-->
             </tree>
         </field>
     </record>
@@ -82,6 +82,10 @@
                             <!--                            <field name="invoice_id" widget="statinfo" string="Invoice"/>-->
                         </button>
                     </div>
+                    <widget name="web_ribbon"
+                            title="Medical Risk"
+                            bg_color="bg-danger"
+                            attrs="{'invisible': [('has_medical_risk', '=', False)]}"/>
                     <notebook>
 
                         <!-- Page: Personal Data -->
@@ -107,6 +111,7 @@
                                 <field name="duration_minutes"/>
                                 <field name="date_end"/>
                                 <field name="visit_type"/>
+                                <field name="cancel_reason"/>
                             </group>
 
                             <group string="Doctor Information">
@@ -207,6 +212,7 @@
                         <!-- Page: Diagnosis -->
                         <page string="Diagnosis And Prescription">
                             <group>
+                                <field name="has_medical_risk" invisible="1"/>
                                 <field name="complaint"/>
                                 <field name="diagnosis"/>
                                 <field name="radiology_required"/>

@@ -1,0 +1,188 @@
+// ── Brand Tokens ──────────────────────────────
+$o-brand-primary:   #2a7fba;
+$o-brand-success:   #28a745;
+$o-brand-warning:   #ffc107;
+$o-brand-danger:    #dc3545;
+
+$nav-bg:            #1a2533;
+$nav-border:        $o-brand-primary;
+$form-bg:           #f7f9fc;
+
+// ── Navbar ────────────────────────────────────
+.o_main_navbar {
+    background: $nav-bg !important;
+    border-bottom: 3px solid $nav-border;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.25);
+
+    // اللوجو والنص فوق الداكن
+    .o_menu_brand {
+        color: #fff !important;
+        font-weight: 700;
+    }
+
+    // قائمة التنقل
+    .o_menu_sections > .o_nav_entry,
+    .o_menu_sections > .o_dropdown > .o_dropdown_title {
+        color: rgba(255, 255, 255, 0.7) !important;
+        border-radius: 8px;
+        transition: background 0.2s, color 0.2s;
+
+        &:hover, &.active {
+            background: rgba($o-brand-primary, 0.2) !important;
+            color: #fff !important;
+        }
+    }
+}
+
+// ── Buttons ───────────────────────────────────
+.btn-primary {
+    background-color: $o-brand-primary !important;
+    border-color: darken($o-brand-primary, 8%) !important;
+    border-radius: 8px !important;
+    font-weight: 500;
+    transition: transform 0.1s, box-shadow 0.2s;
+
+    &:hover {
+        background-color: darken($o-brand-primary, 8%) !important;
+        box-shadow: 0 4px 12px rgba($o-brand-primary, 0.35);
+    }
+
+    &:active { transform: scale(0.97); }
+}
+
+.btn-danger {
+    border-radius: 8px !important;
+}
+
+// ── Form View ─────────────────────────────────
+.o_form_view {
+    background: $form-bg;
+
+    // الـ sheet نفسها
+    .o_form_sheet {
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+        padding: 24px;
+        background: #fff;
+    }
+
+    // الـ statusbar
+    .o_statusbar_status button.btn-primary {
+        background: $o-brand-primary !important;
+    }
+
+    // الـ notebook tabs
+    .o_notebook .nav-tabs .nav-link {
+        border-radius: 8px 8px 0 0;
+        font-weight: 500;
+        color: #555;
+        transition: color 0.2s, background 0.2s;
+
+        &.active {
+            color: $o-brand-primary;
+            border-bottom-color: $o-brand-primary;
+            border-bottom-width: 2px;
+        }
+    }
+
+    // stat buttons
+    .oe_stat_button {
+        border-radius: 10px !important;
+        border: 1px solid rgba($o-brand-primary, 0.2) !important;
+        transition: box-shadow 0.2s;
+
+        &:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+    }
+}
+
+// ── Tree View ─────────────────────────────────
+.o_list_view {
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+
+    thead th {
+        background: #f0f4f8 !important;
+        font-weight: 600;
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        color: #666;
+    }
+
+    tbody tr {
+        transition: background 0.15s;
+        &:hover td { background: rgba($o-brand-primary, 0.04) !important; }
+    }
+}
+
+// ── Medical Risk Badge ────────────────────────
+// المستخدمة في الـ form view بتاعك
+.medical-risk {
+    display: inline-block;
+    border-radius: 20px;
+    padding: 4px 12px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #fff;
+    background: $o-brand-danger;
+    letter-spacing: 0.3px;
+}
+
+// لو عندك حالات تانية
+.badge-medical {
+    border-radius: 20px;
+    padding: 3px 10px;
+    font-size: 11px;
+    font-weight: 500;
+    color: #fff;
+    border: none;
+
+    &.high-risk  { background: $o-brand-danger; }
+    &.follow-up  { background: $o-brand-warning; color: #333; }
+    &.normal     { background: $o-brand-success; }
+}
+
+// ── Kanban Cards ──────────────────────────────
+.o_kanban_record {
+    border-radius: 12px !important;
+    border: 1px solid rgba(0,0,0,0.07) !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05) !important;
+    transition: transform 0.2s, box-shadow 0.2s;
+
+    &:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 18px rgba(0,0,0,0.1) !important;
+    }
+}
+
+// ── Dark Mode ─────────────────────────────────
+body.dark-mode {
+    background: #0f1c2e !important;
+    color: #e2e8f0 !important;
+
+    .o_form_view,
+    .o_form_sheet {
+        background: #162033 !important;
+        color: #e2e8f0 !important;
+    }
+
+    .o_list_view {
+        background: #162033 !important;
+        thead th { background: #1a2740 !important; color: #94a3b8; }
+        tbody td { color: #cbd5e1; border-color: rgba(255,255,255,0.05) !important; }
+    }
+
+    .o_field_widget input,
+    .o_field_widget select,
+    .o_field_widget textarea {
+        background: #1a2740 !important;
+        border-color: rgba(255,255,255,0.1) !important;
+        color: #e2e8f0 !important;
+    }
+
+    .modal-content {
+        background: #162033 !important;
+        color: #e2e8f0 !important;
+    }
+}
