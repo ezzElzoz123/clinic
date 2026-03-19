@@ -34,15 +34,11 @@
     'demo': [
         # 'demo/',
     ],
-    # 'assets': {
-    #     'web.assets_backend': [
-    #         'clinic/static/src/scss/clinic_theme.scss',
-    #         'clinic/static/src/js/dark_mode_toggle.js',
-    #         'clinic/static/src/js/clinic_side_bar.js',
-    #         'clinic/static/src/xml/dark_mode_toggle.xml',
-    #         'clinic/static/src/xml/clinic_sidebar.xml',
-    #     ],
-    # },
+    'assets': {
+        'web.assets_backend': [
+            'clinic/static/src/scss/clinic_theme.scss',
+        ],
+    },
     'installable': True,
     'application': True,
     'auto_install': False,

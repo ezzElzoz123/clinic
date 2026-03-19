@@ -8,32 +8,6 @@ $nav-bg:            #1a2533;
 $nav-border:        $o-brand-primary;
 $form-bg:           #f7f9fc;
 
-// ── Navbar ────────────────────────────────────
-.o_main_navbar {
-    background: $nav-bg !important;
-    border-bottom: 3px solid $nav-border;
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.25);
-
-    // اللوجو والنص فوق الداكن
-    .o_menu_brand {
-        color: #fff !important;
-        font-weight: 700;
-    }
-
-    // قائمة التنقل
-    .o_menu_sections > .o_nav_entry,
-    .o_menu_sections > .o_dropdown > .o_dropdown_title {
-        color: rgba(255, 255, 255, 0.7) !important;
-        border-radius: 8px;
-        transition: background 0.2s, color 0.2s;
-
-        &:hover, &.active {
-            background: rgba($o-brand-primary, 0.2) !important;
-            color: #fff !important;
-        }
-    }
-}
-
 // ── Buttons ───────────────────────────────────
 .btn-primary {
     background-color: $o-brand-primary !important;
@@ -184,5 +158,52 @@ body.dark-mode {
     .modal-content {
         background: #162033 !important;
         color: #e2e8f0 !important;
+    }
+}
+// ╔══════════════════════════════════════════════╗
+// ║      CLINIC THEME — Form Hover Effects      ║
+// ╚══════════════════════════════════════════════╝
+
+$o-brand-primary: #2a7fba;
+$o-brand-danger:  #e53e3e;
+$o-brand-success: #1a9e6e;
+$o-brand-warning: #f59e0b;
+
+// ── Notebook Tabs ─────────────────────────────
+.o_form_view .o_notebook .nav-tabs .nav-link {
+    border-radius: 8px 8px 0 0 !important;
+    font-weight: 600 !important;
+    color: #6b7a8d !important;
+    transition: color 0.2s, background 0.2s !important;
+
+    &:hover:not(.active) {
+        color:      $o-brand-primary !important;
+        background: rgba($o-brand-primary, 0.06) !important;
+    }
+
+    &.active {
+        color:         $o-brand-primary !important;
+        background:    rgba($o-brand-primary, 0.08) !important;
+        border-bottom: 2px solid $o-brand-primary !important;
+        font-weight:   700 !important;
+    }
+}
+
+// ── Header Buttons ────────────────────────────
+.o_form_view header button {
+    border-radius: 8px !important;
+    font-weight: 600 !important;
+    transition: transform 0.15s, box-shadow 0.2s, filter 0.2s !important;
+
+    &:hover {
+        transform:  translateY(-1px) !important;
+        filter:     brightness(1.08) !important;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+    }
+
+    &:active {
+        transform:  scale(0.97) !important;
+        box-shadow: none !important;
+        filter:     brightness(0.95) !important;
     }
 }
