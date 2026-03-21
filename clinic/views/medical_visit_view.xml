@@ -215,13 +215,13 @@
                                 <field name="has_medical_risk" invisible="1"/>
                                 <field name="complaint"/>
                                 <field name="diagnosis"/>
-                                <field name="radiology_required"/>
-                                <field name="lab_required"/>
+                                <field name="checks_required"/>
                                 <field name="recommendations"
                                        placeholder="This data wil be printed in the medical report"/>
                                 <field name="prescription_ids" widget="many2many_tags"
                                        options="{'no_quick_create': True}"/>
                                 <field name="next_visit_date"/>
+                                <field name="notify_days_before"/>
                             </group>
                         </page>
 

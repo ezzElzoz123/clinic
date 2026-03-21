@@ -33,8 +33,8 @@ class InsuranceCompany(models.Model):
 
     @api.model
     def action_expire(self):  # scheduled action
-        promotions = self.env['insurance.company'].search([])
+        insurances = self.env['insurance.company'].search([])
         today = fields.Date.today()
-        for rec in promotions:
+        for rec in insurances:
             if rec.end_date and rec.end_date < today:
                 rec.state = 'expired'

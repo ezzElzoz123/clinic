@@ -6,11 +6,25 @@
         <field name="arch" type="xml">
             <xpath expr="//div[hasclass('settings')]" position="inside">
                 <div class="app_settings_block" string="Medical Settings">
-                    <h2>Medical Visit Settings</h2>
-                    <group>
-                        <field name="checkup_price"/>
-                        <field name="consultation_price"/>
-                    </group>
+                    <h2>Visit Management</h2>
+                    <div class="row mt16 o_settings_container" id="end_contract_setting">
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_left_pane"/>
+                            <div class="o_setting_right_pane">
+                                <span class="o_form_label">Visit Management</span>
+<!--                                <group>-->
+<!--                                    <field name="checkup_price"/>-->
+<!--                                    <field name="consultation_price"/>-->
+<!--                                </group>-->
+                                <div class="text-muted content-group mt16">
+                                    <span>Send an alert</span>
+                                    <field name="notify_days_before" class="text-center"
+                                           style="width: 10%; min-width: 4rem;"/>
+                                    <span>days before the next visit</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </xpath>
         </field>

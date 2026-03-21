@@ -405,7 +405,7 @@ msgstr "مريض سكر"
 #. module: clinic
 #: model:ir.model.fields,field_description:clinic.field_medical_visit__diagnosis
 msgid "Diagnosis"
-msgstr "الحالة"
+msgstr "التشخيص"
 
 #. module: clinic
 #: model_terms:ir.ui.view,arch_db:clinic.view_medical_visit_form

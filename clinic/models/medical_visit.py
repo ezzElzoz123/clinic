@@ -122,10 +122,12 @@ class MedicalVisit(models.Model):
     complaint = fields.Text(string="Complaint", tracking=True)
     diagnosis = fields.Text(string="Diagnosis", tracking=True)
     next_visit_date = fields.Date(string="Next Visit Date", tracking=True)
+    notify_days_before = fields.Integer(
+        string="Notify me before",
+    )
     recommendations = fields.Text(string="Recommendations", tracking=True)
     prescription_ids = fields.Many2many('medical.prescription', string="Prescription", tracking=True)
-    radiology_required = fields.Text(tracking=True)
-    lab_required = fields.Text(tracking=True)
+    checks_required = fields.Text(tracking=True)
 
     # =========================
     # 🔹 Accounting
@@ -477,4 +479,36 @@ class MedicalVisit(models.Model):
             'type': 'ir.actions.act_window',
         }
 
+    @api.model
+    def action_notify_before_num_of_days(self):
+        today = fields.Date.today()
+        visits = self.search([
+            ('next_visit_date', '!=', False),
+        ])
+        for rec in visits:
+            notify_date = rec.next_visit_date - timedelta(days=rec.notify_days_before or 0)
+            if notify_date == today:
+                self.env['mail.activity'].create({
+                    'res_model_id': self.env['ir.model']._get_id('medical.visit'),
+                    'res_id': rec.id,
+                    'activity_type_id': self.env.ref('mail.mail_activity_data_todo').id,
+                    'summary': 'Follow-up Reminder',
+                    'note': f'Patient has a visit on {rec.next_visit_date}',
+                    'user_id': rec.create_uid.id,  # أو doctor_id
+                    'date_deadline': today,
+                })
 
+    # =========================
+    # 🔹 DEFAULTS
+    # =========================
+    @api.model
+    def default_get(self, fields_list):
+        res = super().default_get(fields_list)
+
+        params = self.env['ir.config_parameter'].sudo()
+
+        res['notify_days_before'] = int(
+            params.get_param('clinic.notify_days_before', default=0)
+        )
+
+        return res
