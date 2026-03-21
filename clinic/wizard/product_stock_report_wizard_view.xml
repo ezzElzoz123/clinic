@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_product_stock_report_wizard" model="ir.ui.view">
+        <field name="name">product.stock.report.wizard.form</field>
+        <field name="model">product.stock.report.wizard</field>
+        <field name="arch" type="xml">
+            <form string="تقرير المخزون">
+                <div style="
+                    background: linear-gradient(135deg, #1A7A8A, #2BBCD4);
+                    border-radius: 8px;
+                    padding: 16px 20px;
+                    margin-bottom: 20px;
+                    color: white;
+                    direction: rtl;
+                ">
+                    <h3 style="margin:0; color:white; font-size:18px; font-weight:700;">
+                        📊  تقرير المخزون
+                    </h3>
+                    <small style="color:#C8EFF6;">
+                        ezmedica — نظام إدارة العيادات
+                    </small>
+                </div>
+
+                <group string="خيارات التقرير">
+                    <group>
+                        <field name="report_format" widget="radio"/>
+                    </group>
+                    <group>
+                        <field name="only_available"/>
+                    </group>
+                </group>
+
+                <footer>
+                    <button name="action_print"
+                            string="🖨️  طباعة / تصدير"
+                            type="object"
+                            class="btn-primary"/>
+                    <button string="إلغاء"
+                            class="btn-secondary"
+                            special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_window_product_stock_report" model="ir.actions.act_window">
+        <field name="name">تقرير المخزون</field>
+        <field name="res_model">product.stock.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_product_stock_report_wizard"/>
+        <field name="target">new</field>
+    </record>
+</odoo>

@@ -30,4 +30,47 @@
               action="insurance_company_action"
               sequence="7"/>
 
+    <menuitem
+            id="menu_medical_reports"
+            name="Reports"
+            parent="menu_medical_root"
+            sequence="8"
+    />
+
+    <!-- ══════════════════════════════════════
+         GROUP 1: Inventory Reports
+    ══════════════════════════════════════ -->
+    <menuitem
+            id="menu_reports_inventory"
+            name="Inventory Reports"
+            parent="menu_medical_reports"
+            sequence="10"
+    />
+
+    <menuitem
+            id="menu_report_product_stock"
+            name="Product Stock Report"
+            parent="menu_reports_inventory"
+            action="clinic.action_window_product_stock_report"
+            sequence="1"
+    />
+
+    <!-- ══════════════════════════════════════
+         GROUP 3: Financial Reports
+    ══════════════════════════════════════ -->
+    <menuitem
+            id="menu_reports_financial"
+            name="Financial Reports"
+            parent="menu_medical_reports"
+            sequence="30"
+    />
+
+    <menuitem
+            id="menu_report_financial_clinic"
+            name="التقرير المالي"
+            parent="menu_reports_financial"
+            action="clinic.action_window_financial_report"
+            sequence="1"
+    />
+
 </odoo>

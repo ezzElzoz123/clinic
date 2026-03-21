@@ -1,0 +1,332 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="report_financial_template">
+        <t t-call="web.html_container">
+
+            <div class="article" style="font-family: Arial, sans-serif; padding: 20px; direction: rtl;">
+                <style>
+                    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+                    .ezm-header {
+                    background-color: #1A7A8A;
+                    border-radius: 6px;
+                    padding: 18px 22px;
+                    margin-bottom: 16px;
+                    }
+                    .ezm-logo-text {
+                    font-size: 24px; font-weight: 900; color: #FFFFFF;
+                    letter-spacing: -1px; direction: ltr; display: inline-block;
+                    }
+                    .ezm-logo-text span { color: #A8E6F0; }
+                    .ezm-logo-sub {
+                    font-size: 9px; color: #A8E6F0; letter-spacing: 3px;
+                    text-transform: uppercase; margin-top: 2px; direction: ltr;
+                    }
+                    .filter-bar {
+                    background-color: #EAF8FB;
+                    border: 1px solid #A8E6F0;
+                    border-right: 4px solid #2BBCD4;
+                    border-radius: 4px;
+                    padding: 6px 14px;
+                    font-size: 10px;
+                    color: #1A7A8A;
+                    margin-bottom: 14px;
+                    }
+                    .ezm-card {
+                    background-color: #EAF8FB;
+                    border: 1px solid #A8E6F0;
+                    border-top: 3px solid #2BBCD4;
+                    border-radius: 6px;
+                    padding: 10px 8px;
+                    text-align: center;
+                    }
+                    .card-value { font-size: 20px; font-weight: 700; color: #1A7A8A; }
+                    .card-label { font-size: 9px; color: #5A8A95; margin-top: 3px; }
+
+                    .ezm-table {
+                    width: 100%;
+                    border-collapse: collapse;
+                    font-size: 9.5px;
+                    border: 1px solid #A8E6F0;
+                    margin-top: 14px;
+                    }
+                    .ezm-table thead tr { background-color: #1A7A8A; }
+                    .ezm-table thead th {
+                    padding: 7px 6px;
+                    text-align: right;
+                    font-weight: 700;
+                    color: #FFFFFF;
+                    border-left: 1px solid #2BBCD4;
+                    font-size: 9px;
+                    }
+                    .ezm-table tbody tr { border-bottom: 1px solid #E0F4F8; }
+                    .ezm-table tbody tr.even { background-color: #F5FCFE; }
+                    .ezm-table td {
+                    padding: 5px 6px;
+                    color: #1C3D47;
+                    border-left: 1px solid #E8F7FB;
+                    vertical-align: middle;
+                    text-align: right;
+                    }
+
+                    /* Badges */
+                    .badge-paid { background-color:#D5F5E3; color:#1E8449; padding:2px 6px; border-radius:8px;
+                    font-weight:700; font-size:8px; }
+                    .badge-unpaid { background-color:#FADBD8; color:#C0392B; padding:2px 6px; border-radius:8px;
+                    font-weight:700; font-size:8px; }
+                    .badge-partial { background-color:#FDEBD0; color:#CA6F1E; padding:2px 6px; border-radius:8px;
+                    font-weight:700; font-size:8px; }
+                    .badge-neutral { background-color:#F0F0F0; color:#5A8A95; padding:2px 6px; border-radius:8px;
+                    font-weight:700; font-size:8px; }
+
+                    .money { font-weight:700; color:#1A7A8A; }
+                    .ezm-grand-total {
+                    background-color: #1A7A8A;
+                    border-radius: 6px;
+                    padding: 10px 16px;
+                    margin-top: 10px;
+                    font-size: 11px;
+                    }
+                    .text-center { text-align: center !important; }
+                    .text-left { text-align: left !important; }
+                    table, thead, tbody, tfoot, tr, td, th, ezm-footer, footer {
+                    border: none !important;
+                    }
+                </style>
+
+                <!-- ══════ HEADER ══════ -->
+                <div class="ezm-header">
+                    <table width="100%" style="border:none; border-collapse:collapse; border-spacing:0;">
+                        <tr>
+                            <td style="width:55%; border:none; padding:0;">
+                                <div class="ezm-logo-text">ez
+                                    <span>medica</span>
+                                </div>
+                                <div class="ezm-logo-sub">System for Clinics</div>
+                            </td>
+                            <td style="width:45%; border:none; padding:0; vertical-align:top; text-align:left;">
+                                <div style="font-size:18px; font-weight:700; color:#FFFFFF;">التقرير المالي</div>
+                                <div style="font-size:10px; color:#A8E6F0; margin-top:4px;">
+                                    التاريخ:
+                                    <t t-esc="context_timestamp(datetime.datetime.now()).strftime('%d/%m/%Y %H:%M')"/>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+                <!-- ══════ FILTER BAR ══════ -->
+                <div class="filter-bar">
+                    <table width="100%" style="border:none; border-collapse:collapse; border-spacing:0;">
+                        <tr>
+                            <td style="border:none; padding:0;">
+                                <strong>الفترة:</strong>
+                                <t t-esc="docs[0].date.strftime('%d/%m/%Y')"/>
+                                —
+                                <t t-esc="docs[-1].date.strftime('%d/%m/%Y')"/>
+                            </td>
+                            <td style="border:none; padding:0; text-align:center;">
+                                <strong>الدكتور:</strong>
+                                <t t-esc="docs[0].doctor_id.name if len(docs.mapped('doctor_id')) == 1 else 'الكل'"/>
+                            </td>
+                            <td style="border:none; padding:0; text-align:left;">
+                                <strong>القسم:</strong>
+                                <t t-esc="docs[0].department_id.name if len(docs.mapped('department_id')) == 1 else 'الكل'"/>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+                <!-- ══════ SUMMARY CARDS ══════ -->
+                <t t-set="total_visits" t-value="len(docs)"/>
+                <t t-set="total_revenue" t-value="sum(docs.mapped('total_cost'))"/>
+                <t t-set="total_paid" t-value="sum(v.total_cost for v in docs if v.invoice_state == 'paid')"/>
+                <t t-set="total_unpaid" t-value="total_revenue - total_paid"/>
+                <t t-set="total_ins" t-value="sum(docs.mapped('insurance_amount'))"/>
+                <t t-set="total_patient" t-value="sum(docs.mapped('patient_amount'))"/>
+
+                <table width="100%" style="border-collapse:separate; border-spacing:5px; margin-bottom:4px;">
+                    <tr>
+                        <td class="ezm-card">
+                            <div class="card-value">
+                                <t t-esc="total_visits"/>
+                            </div>
+                            <div class="card-label">إجمالي الكشوفات</div>
+                        </td>
+                        <td class="ezm-card" style="border-top-color:#1A7A8A;">
+                            <div class="card-value" style="font-size:14px;">
+                                <t t-esc="'%.2f' % total_revenue"/>
+                            </div>
+                            <div class="card-label">إجمالي الإيرادات</div>
+                        </td>
+                        <td class="ezm-card" style="border-top-color:#27AE60;">
+                            <div class="card-value" style="color:#27AE60; font-size:14px;">
+                                <t t-esc="'%.2f' % total_paid"/>
+                            </div>
+                            <div class="card-label">مدفوع</div>
+                        </td>
+                        <td class="ezm-card" style="border-top-color:#E74C3C;">
+                            <div class="card-value" style="color:#E74C3C; font-size:14px;">
+                                <t t-esc="'%.2f' % total_unpaid"/>
+                            </div>
+                            <div class="card-label">غير مدفوع</div>
+                        </td>
+                        <td class="ezm-card" style="border-top-color:#F39C12;">
+                            <div class="card-value" style="color:#F39C12; font-size:14px;">
+                                <t t-esc="'%.2f' % total_ins"/>
+                            </div>
+                            <div class="card-label">تأمين</div>
+                        </td>
+                    </tr>
+                </table>
+
+                <!-- ══════ VISITS TABLE ══════ -->
+                <table class="ezm-table">
+                    <thead>
+                        <tr>
+                            <th style="width:4%" class="text-center">م</th>
+                            <th style="width:16%">اسم المريض</th>
+                            <th style="width:13%">الدكتور</th>
+                            <th style="width:10%">القسم</th>
+                            <th style="width:11%">تاريخ الكشف</th>
+                            <th style="width:9%" class="text-center">سعر الكشف</th>
+                            <th style="width:9%" class="text-center">الإجمالي</th>
+                            <th style="width:9%" class="text-center">التأمين</th>
+                            <th style="width:9%" class="text-center">على المريض</th>
+                            <th style="width:10%" class="text-center">الفاتورة</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-foreach="docs" t-as="visit">
+                            <tr t-attf-class="{{ 'even' if visit_index % 2 == 0 else '' }}">
+
+                                <td class="text-center" style="color:#888;">
+                                    <t t-esc="visit_index + 1"/>
+                                </td>
+                                <td>
+                                    <strong>
+                                        <t t-esc="visit.patient_id.name"/>
+                                    </strong>
+                                </td>
+                                <td>
+                                    <t t-esc="visit.doctor_id.name"/>
+                                </td>
+                                <td>
+                                    <t t-esc="visit.department_id.name if visit.department_id else '—'"/>
+                                </td>
+                                <td class="text-center" style="font-size:9px;">
+                                    <t t-esc="visit.date.strftime('%d/%m/%Y')"/>
+                                </td>
+                                <td class="text-center money">
+                                    <t t-esc="'%.2f' % visit.price"/>
+                                </td>
+                                <td class="text-center money">
+                                    <t t-esc="'%.2f' % visit.total_cost"/>
+                                </td>
+                                <td class="text-center" style="color:#F39C12; font-weight:700;">
+                                    <t t-esc="'%.2f' % visit.insurance_amount"/>
+                                </td>
+                                <td class="text-center money">
+                                    <t t-esc="'%.2f' % visit.patient_amount"/>
+                                </td>
+
+                                <!-- حالة الفاتورة -->
+                                <td class="text-center">
+                                    <t t-if="not visit.invoice_id">
+                                        <span class="badge-neutral">لا توجد فاتورة</span>
+                                    </t>
+                                    <t t-elif="visit.invoice_state == 'paid'">
+                                        <span class="badge-paid">مدفوع</span>
+                                    </t>
+                                    <t t-elif="visit.invoice_state == 'partial'">
+                                        <span class="badge-partial">جزئي</span>
+                                    </t>
+                                    <t t-elif="visit.invoice_state in ['not_paid', 'in_payment']">
+                                        <span class="badge-unpaid">غير مدفوع</span>
+                                    </t>
+                                    <t t-else="">
+                                        <span class="badge-neutral">
+                                            <t t-esc="visit.invoice_state or '—'"/>
+                                        </span>
+                                    </t>
+                                </td>
+
+                            </tr>
+                        </t>
+                    </tbody>
+                </table>
+
+                <!-- ══════ GRAND TOTAL ══════ -->
+                <div class="ezm-grand-total">
+                    <table width="100%" style="border:none; border-collapse:collapse; border-spacing:0;">
+                        <tr>
+                            <td style="border:none; padding:0; font-weight:700; font-size:12px; color:#FFFFFF; width:40%;">
+                                &#9679; الإجمالي العام
+                                <span style="font-size:10px; color:#A8E6F0; margin-right:10px;">
+                                    (
+                                    <t t-esc="total_visits"/>
+                                    كشف)
+                                </span>
+                            </td>
+                            <td style="border:none; padding:0; text-align:left;">
+                                <span style="margin-left:16px; font-size:10px; color:#FFFFFF;">
+                                    الإيرادات:
+                                    <strong style="color:#A8E6F0;">
+                                        <t t-esc="'%.2f' % total_revenue"/>
+                                    </strong>
+                                </span>
+                                <span style="margin-left:16px; font-size:10px; color:#FFFFFF;">
+                                    مدفوع:
+                                    <strong style="color:#A8E6F0;">
+                                        <t t-esc="'%.2f' % total_paid"/>
+                                    </strong>
+                                </span>
+                                <span style="margin-left:16px; font-size:10px; color:#FFFFFF;">
+                                    تأمين:
+                                    <strong style="color:#A8E6F0;">
+                                        <t t-esc="'%.2f' % total_ins"/>
+                                    </strong>
+                                </span>
+                                <span style="font-size:10px; color:#FFFFFF;">
+                                    على المرضى:
+                                    <strong style="color:#A8E6F0;">
+                                        <t t-esc="'%.2f' % total_patient"/>
+                                    </strong>
+                                </span>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+                            <!-- ══════ FOOTER ══════ -->
+                <div class="footer row" style="
+                        background-color: #1A7A8A;
+                        padding: 8px 20px;
+                        font-family: Arial, sans-serif;
+                        font-size: 12px;
+                        direction: rtl;
+                        width: 100%;
+                        color: white;
+                    ">
+                    <div class="col-5">
+                        <strong>ezmedica</strong>
+                        — نظام إدارة العيادات
+                    </div>
+                    <div class="col-5">
+                        تاريخ الطباعة:
+                        <t t-esc="context_timestamp(datetime.datetime.now()).strftime('%d/%m/%Y %H:%M')"/>
+                    </div>
+                    <div class="col-2">
+                        صفحة
+                        <span class="page"/>
+                        من
+                        <span class="topage"/>
+                    </div>
+                </div>
+
+            </div>
+        </t>
+    </template>
+
+</odoo>

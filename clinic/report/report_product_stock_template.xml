@@ -1,0 +1,335 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="report_product_stock_template">
+        <t t-call="web.html_container">
+            <div class="article" style="font-family: Arial, sans-serif; padding: 20px; direction: rtl;">
+                <style>
+                    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+                    .ezm-header {
+                    background-color: #1A7A8A;
+                    border-radius: 6px;
+                    padding: 20px 25px;
+                    margin-bottom: 20px;
+                    }
+                    .ezm-logo-text {
+                    font-size: 26px;
+                    font-weight: 900;
+                    color: #FFFFFF;
+                    letter-spacing: -1px;
+                    direction: ltr;
+                    display: inline-block;
+                    }
+                    .ezm-logo-text span { color: #A8E6F0; }
+                    .ezm-logo-sub {
+                    font-size: 9px;
+                    color: #A8E6F0;
+                    letter-spacing: 3px;
+                    text-transform: uppercase;
+                    margin-top: 2px;
+                    direction: ltr;
+                    }
+                    .report-title {
+                    font-size: 20px;
+                    font-weight: 700;
+                    color: #FFFFFF;
+                    text-align: left;
+                    }
+                    .report-date {
+                    font-size: 11px;
+                    color: #A8E6F0;
+                    text-align: left;
+                    margin-top: 4px;
+                    }
+
+                    /* Summary Cards */
+                    .ezm-card {
+                    background: #EAF8FB;
+                    border: 1px solid #A8E6F0;
+                    border-top: 3px solid #2BBCD4;
+                    border-radius: 6px;
+                    padding: 10px 8px;
+                    text-align: center;
+                    width: 25%;
+                    }
+                    .card-value {
+                    font-size: 22px;
+                    font-weight: 700;
+                    color: #1A7A8A;
+                    }
+                    .card-label {
+                    font-size: 9px;
+                    color: #5A8A95;
+                    margin-top: 3px;
+                    }
+
+                    /* Group Header */
+                    .ezm-group-header {
+                    background-color: #2BBCD4;
+                    color: #FFFFFF;
+                    padding: 7px 14px;
+                    font-size: 12px;
+                    font-weight: 700;
+                    margin-top: 16px;
+                    letter-spacing: 0.5px;
+                    }
+
+                    /* Table */
+                    .ezm-table {
+                    width: 100%;
+                    border-collapse: collapse;
+                    font-size: 10px;
+                    border: 1px solid #A8E6F0;
+                    border-top: none;
+                    margin-bottom: 4px;
+                    }
+                    .ezm-table thead tr { background-color: #EAF8FB; }
+                    .ezm-table thead th {
+                    padding: 7px 8px;
+                    text-align: right;
+                    font-weight: 700;
+                    color: #1A7A8A;
+                    border-bottom: 2px solid #2BBCD4;
+                    border-left: 1px solid #A8E6F0;
+                    font-size: 9px;
+                    }
+                    .ezm-table tbody tr { border-bottom: 1px solid #E0F4F8; }
+                    .ezm-table tbody tr.even { background-color: #F5FCFE; }
+                    .ezm-table td {
+                    padding: 6px 8px;
+                    color: #1C3D47;
+                    border-left: 1px solid #E8F7FB;
+                    vertical-align: middle;
+                    text-align: right;
+                    }
+
+                    /* Badges */
+                    .badge-ok { background:#D5F5E3; color:#1E8449; padding:2px 7px; border-radius:10px; font-weight:700;
+                    font-size:9px; }
+                    .badge-low { background:#FDEBD0; color:#CA6F1E; padding:2px 7px; border-radius:10px;
+                    font-weight:700; font-size:9px; }
+                    .badge-out { background:#FADBD8; color:#C0392B; padding:2px 7px; border-radius:10px;
+                    font-weight:700; font-size:9px; }
+
+                    .qty-ok { font-weight:700; color:#1A7A8A; }
+                    .qty-bad { font-weight:700; color:#E74C3C; }
+
+                    /* Group Footer */
+                    .ezm-group-footer {
+                    background: #EAF8FB;
+                    border: 1px solid #A8E6F0;
+                    border-top: 2px solid #2BBCD4;
+                    padding: 5px 14px;
+                    text-align: right;
+                    font-size: 10px;
+                    font-weight: 700;
+                    color: #1A7A8A;
+                    margin-bottom: 4px;
+                    }
+
+                    /* Grand Total */
+                    .ezm-grand-total {
+                    background-color: #1A7A8A;
+                    border-radius: 6px;
+                    padding: 12px 18px;
+                    color: #FFFFFF;
+                    margin-top: 20px;
+                    font-size: 12px;
+                    }
+
+                    /* Footer */
+                    .ezm-footer {
+                    padding-top: 8px;
+                    margin-top: 20px;
+                    font-size: 9px;
+                    color: #5A8A95;
+                    border: none !important;
+                    }
+
+                    .text-center { text-align: center !important; }
+                    .text-left { text-align: left !important; }
+                    table, thead, tbody, tfoot, tr, td, th, ezm-footer, footer {
+                    border: none !important;
+                    }
+                </style>
+
+                <!-- ══════ HEADER ══════ -->
+                <div class="ezm-header">
+                    <table width="100%" style="border:none;">
+                        <tr>
+                            <td style="width:55%; border:none; padding:0;">
+                                <div class="ezm-logo-text">ez
+                                    <span>medica</span>
+                                </div>
+                                <div class="ezm-logo-sub">System for Clinics</div>
+                            </td>
+                            <td style="width:45%; border:none; padding:0; vertical-align:top;">
+                                <div class="report-title" style="color:#FFFFFF;">تقرير المخزون</div>
+                                <div class="report-date" style="color:#A8E6F0;">
+                                    التاريخ:
+                                    <t t-esc="context_timestamp(datetime.datetime.now()).strftime('%d/%m/%Y %H:%M')"/>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+                <!-- ══════ SUMMARY ══════ -->
+                <!-- فلترة المنتجات القابلة للاستهلاك فقط (consu) -->
+                <t t-set="docs" t-value="docs.filtered(lambda p: p.type == 'consu')"/>
+
+                <t t-set="total_products" t-value="len(docs)"/>
+                <t t-set="out_of_stock" t-value="len(docs.filtered(lambda p: p.qty_available &lt;= 0))"/>
+                <t t-set="low_stock" t-value="len(docs.filtered(lambda p: 0 &lt; p.qty_available &lt;= 5))"/>
+                <t t-set="in_stock" t-value="total_products - out_of_stock - low_stock"/>
+                <t t-set="total_qty" t-value="sum(docs.mapped('qty_available'))"/>
+
+                <table width="100%" style="border-collapse:separate; border-spacing:6px; margin-bottom:16px;">
+                    <tr>
+                        <td class="ezm-card">
+                            <div class="card-value">
+                                <t t-esc="total_products"/>
+                            </div>
+                            <div class="card-label">إجمالي المنتجات</div>
+                        </td>
+                        <td class="ezm-card" style="border-top-color:#27AE60;">
+                            <div class="card-value" style="color:#27AE60;">
+                                <t t-esc="in_stock"/>
+                            </div>
+                            <div class="card-label">متوفر</div>
+                        </td>
+                        <td class="ezm-card" style="border-top-color:#F39C12;">
+                            <div class="card-value" style="color:#F39C12;">
+                                <t t-esc="low_stock"/>
+                            </div>
+                            <div class="card-label">مخزون منخفض</div>
+                        </td>
+                        <td class="ezm-card" style="border-top-color:#E74C3C;">
+                            <div class="card-value" style="color:#E74C3C;">
+                                <t t-esc="out_of_stock"/>
+                            </div>
+                            <div class="card-label">نفد المخزون</div>
+                        </td>
+                    </tr>
+                </table>
+
+                <!-- ══════ GROUPED TABLE ══════ -->
+                <table class="ezm-table">
+                    <thead>
+                        <tr>
+                            <th style="width:5%" class="text-center">م</th>
+                            <th style="width:45%">اسم المنتج</th>
+                            <th style="width:15%" class="text-center">الكمية المتاحة</th>
+                            <th style="width:15%" class="text-center">الوحدة</th>
+                            <th style="width:20%" class="text-center">الحالة</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-foreach="docs" t-as="product">
+                            <tr t-attf-class="{{ 'even' if product_index % 2 == 0 else '' }}">
+
+                                <!-- رقم -->
+                                <td class="text-center" style="color:#888;">
+                                    <t t-esc="product_index + 1"/>
+                                </td>
+
+                                <!-- اسم المنتج -->
+                                <td>
+                                    <strong>
+                                        <t t-esc="product.name"/>
+                                    </strong>
+                                </td>
+
+                                <!-- الكمية المتاحة -->
+                                <td class="text-center">
+                                    <t t-if="product.qty_available &lt;= 0">
+                                        <span class="qty-bad">
+                                            <t t-esc="'%.0f' % product.qty_available"/>
+                                        </span>
+                                    </t>
+                                    <t t-else="">
+                                        <span class="qty-ok">
+                                            <t t-esc="'%.0f' % product.qty_available"/>
+                                        </span>
+                                    </t>
+                                </td>
+
+                                <!-- وحدة القياس -->
+                                <td class="text-center">
+                                    <t t-esc="product.uom_id.name"/>
+                                </td>
+
+                                <!-- الحالة -->
+                                <td class="text-center">
+                                    <t t-if="product.qty_available &lt;= 0">
+                                        <span class="badge-out">نفد المخزون</span>
+                                    </t>
+                                    <t t-elif="product.qty_available &lt;= 5">
+                                        <span class="badge-low">مخزون منخفض</span>
+                                    </t>
+                                    <t t-else="">
+                                        <span class="badge-ok">متوفر</span>
+                                    </t>
+                                </td>
+                            </tr>
+                        </t>
+                    </tbody>
+                </table>
+
+                <!-- ══════ GRAND TOTAL ══════ -->
+                <div class="ezm-grand-total">
+                    <table width="100%" style="border:none; border-collapse:collapse;">
+                        <tr>
+                            <td style="border:none; padding:0; font-weight:700; font-size:13px; color:#FFFFFF;">
+                                &#9679; الإجمالي العام
+                            </td>
+                            <td style="border:none; padding:0; text-align:left; color:#FFFFFF;">
+                                <span style="margin-left:20px; font-size:11px; color:#FFFFFF;">
+                                    عدد المنتجات:
+                                    <strong>
+                                        <t t-esc="total_products"/>
+                                    </strong>
+                                </span>
+                                <span style="font-size:13px; font-weight:700; color:#FFFFFF;">
+                                    إجمالي الكميات:
+                                    <t t-esc="'%.0f' % total_qty"/>
+                                    وحدة
+                                </span>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+                <!-- ══════ FOOTER ══════ -->
+                <div class="footer row" style="
+                        background-color: #1A7A8A;
+                        padding: 8px 20px;
+                        font-family: Arial, sans-serif;
+                        font-size: 12px;
+                        direction: rtl;
+                        width: 100%;
+                        color: white;
+                    ">
+                    <div class="col-5">
+                        <strong>ezmedica</strong>
+                        — نظام إدارة العيادات
+                    </div>
+                    <div class="col-5">
+                        تاريخ الطباعة:
+                        <t t-esc="context_timestamp(datetime.datetime.now()).strftime('%d/%m/%Y %H:%M')"/>
+                    </div>
+                    <div class="col-2">
+                        صفحة
+                        <span class="page"/>
+                        من
+                        <span class="topage"/>
+                    </div>
+                </div>
+
+
+            </div>
+        </t>
+    </template>
+
+</odoo>

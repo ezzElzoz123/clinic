@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="view_financial_report_wizard" model="ir.ui.view">
+        <field name="name">financial.report.wizard.form</field>
+        <field name="model">financial.report.wizard</field>
+        <field name="arch" type="xml">
+            <form string="التقرير المالي">
+
+                <div style="
+                    background-color: #1A7A8A;
+                    border-radius: 8px;
+                    padding: 16px 20px;
+                    margin-bottom: 20px;
+                    direction: rtl;
+                ">
+                    <h3 style="margin:0; color:white; font-size:18px; font-weight:700;">
+                        💰  التقرير المالي للعيادة
+                    </h3>
+                    <small style="color:#A8E6F0;">
+                        ezmedica — نظام إدارة العيادات
+                    </small>
+                </div>
+
+                <group string="فترة التقرير">
+                    <group>
+                        <field name="date_from"/>
+                        <field name="date_to"/>
+                    </group>
+                    <group>
+                        <field name="report_format" widget="radio"/>
+                    </group>
+                </group>
+
+                <group string="فلترة (اختياري — اتركها فارغة للكل)">
+                    <group>
+                        <field name="doctor_ids" widget="many2many_tags"
+                               placeholder="اختر طبيب أو أكثر..."/>
+                    </group>
+                    <group>
+                        <field name="department_ids" widget="many2many_tags"
+                               placeholder="اختر قسم أو أكثر..."/>
+                    </group>
+                </group>
+
+                <footer>
+                    <button name="action_print"
+                            string="🖨️  طباعة / تصدير"
+                            type="object"
+                            class="btn-primary"/>
+                    <button string="إلغاء"
+                            class="btn-secondary"
+                            special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- Window Action → يفتح الـ Wizard -->
+    <record id="action_window_financial_report" model="ir.actions.act_window">
+        <field name="name">التقرير المالي</field>
+        <field name="res_model">financial.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_financial_report_wizard"/>
+        <field name="target">new</field>
+    </record>
+
+
+
+</odoo>
