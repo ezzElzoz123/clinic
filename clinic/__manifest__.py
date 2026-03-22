@@ -26,6 +26,7 @@
         'views/medical_prescription_view.xml',
         'views/account_move_view.xml',
         'views/insurance_company.xml',
+        'views/clinic_display.xml',
         'report/paper_fromat.xml',
         'report/prescription_view.xml',
         'report/medical_report.xml',

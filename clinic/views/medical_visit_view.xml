@@ -23,11 +23,14 @@
         <field name="model">medical.visit</field>
         <field name="arch" type="xml">
             <tree string="Medical Visits" default_order="date desc">
+                <field name="name"/>
                 <field name="date"/>
                 <field name="patient_id"/>
                 <field name="doctor_id"/>
+                <field name="department_id"/>
                 <field name="visit_type"/>
                 <field name="state"/>
+                <field name="status"/>
                 <!--                <field name="advance_payment_amount"/>-->
                 <!--                <field name="total_cost"/>-->
                 <!--                <field name="invoice_state"/>-->
@@ -91,6 +94,7 @@
                         <!-- Page: Personal Data -->
                         <page string="Personal Data">
                             <group>
+                                <field name="name"/>
                                 <field name="patient_id" options="{'no_quick_create': True}"/>
                                 <field name="has_insurance" invisible="1"/>
                                 <field name="age"/>

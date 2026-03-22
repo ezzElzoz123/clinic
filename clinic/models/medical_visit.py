@@ -14,6 +14,13 @@ class MedicalVisit(models.Model):
     # =========================
     # 🔹 Basic Info
     # =========================
+    name = fields.Char(
+        string="Visit Number",
+        readonly=True,
+        copy=False,
+        default="New",
+        tracking=True
+    )
     patient_id = fields.Many2one('medical.patient', string="Patient", required=True, tracking=True)
     company_id = fields.Many2one('res.company', string="Clinic", default=lambda self: self.env.company.id)
     doctor_id = fields.Many2one('medical.doctor', string="Doctor", required=True, tracking=True)
@@ -167,6 +174,12 @@ class MedicalVisit(models.Model):
         ('done', 'Done'),
         ('cancel', 'Cancelled'),
     ], string="Status", default="draft", tracking=True)
+    status = fields.Selection([
+        ('waiting', 'Waiting'),
+        ('in_progress', 'In Progress'),
+        ('done', 'Done'),
+        ('cancel', 'Cancelled'),
+    ], default='waiting', string="Queue Status" ,tracking=True)
     # =========================
     # 🔹 Insurance
     # =========================
@@ -389,6 +402,7 @@ class MedicalVisit(models.Model):
     def action_done(self):
         for rec in self:
             rec.state = 'done'
+            rec.action_next_patient()
             if rec.patient_id:
                 p = rec.patient_id
                 p.update({
@@ -447,6 +461,40 @@ class MedicalVisit(models.Model):
 
             # 🔁 3. Update state
             rec.state = 'cancel'
+            rec.status = 'cancel'
+
+    def action_next_patient(self):
+        for rec in self:
+            rec.status = 'done'
+            # هات أول واحد مستني
+            next_patient = self.search(
+                [('status', '=', 'waiting'),
+                 ('department_id', '=', rec.department_id.id),
+                 ],
+                order="name asc",
+                limit=1
+            )
+            if next_patient:
+                next_patient.status = 'in_progress'
+
+    # علشان لما افتح الصبح مش هيكون فيه حد in progress دي هتعمل كدة
+    def action_ensure_in_progress(self):
+        """لو مفيش حد in_progress في القسم، خلي أول واحد waiting"""
+        departments = self.env['medical.department'].search([])
+        for dept in departments:
+            in_progress = self.search([
+                ('status', '=', 'in_progress'),
+                ('department_id', '=', dept.id),
+            ], limit=1)
+
+            if not in_progress:
+                first_waiting = self.search([
+                    ('status', '=', 'waiting'),
+                    ('department_id', '=', dept.id),
+                ], order='name asc', limit=1)
+
+                if first_waiting:
+                    first_waiting.status = 'in_progress'
 
     # =========================
     # 🔹 SMART BUTTONS
@@ -515,3 +563,13 @@ class MedicalVisit(models.Model):
         )
 
         return res
+
+    # =========================
+    # 🔹 CREATE ORM METHOD
+    # =========================
+
+    @api.model
+    def create(self, vals):
+        if vals.get('name', 'New') == 'New':
+            vals['name'] = self.env['ir.sequence'].next_by_code('medical.visit') or 'New'
+        return super().create(vals)
