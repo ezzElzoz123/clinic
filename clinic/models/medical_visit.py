@@ -485,18 +485,21 @@ class MedicalVisit(models.Model):
         visits = self.search([
             ('next_visit_date', '!=', False),
         ])
+        group = self.env.ref('clinic.group_medical_followup')
+        users = group.users
         for rec in visits:
             notify_date = rec.next_visit_date - timedelta(days=rec.notify_days_before or 0)
             if notify_date == today:
-                self.env['mail.activity'].create({
-                    'res_model_id': self.env['ir.model']._get_id('medical.visit'),
-                    'res_id': rec.id,
-                    'activity_type_id': self.env.ref('mail.mail_activity_data_todo').id,
-                    'summary': 'Follow-up Reminder',
-                    'note': f'Patient has a visit on {rec.next_visit_date}',
-                    'user_id': rec.create_uid.id,  # أو doctor_id
-                    'date_deadline': today,
-                })
+                for user in users:
+                    self.env['mail.activity'].create({
+                        'res_model_id': self.env['ir.model']._get_id('medical.visit'),
+                        'res_id': rec.id,
+                        'activity_type_id': self.env.ref('mail.mail_activity_data_call').id,
+                        'summary': 'Follow-up Reminder',
+                        'note': f'Patient has a visit on {rec.next_visit_date}',
+                        'user_id': user.id,
+                        'date_deadline': today,
+                    })
 
     # =========================
     # 🔹 DEFAULTS
