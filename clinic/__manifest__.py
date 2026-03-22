@@ -12,6 +12,7 @@
     # موديول المحاسبة هنزل اخوه الكوميونتي من اودو ابس علشان يشتغل كوميونتي
     'data': [
         'security/ir.model.access.csv',
+        'security/security.xml',
         'data/ir_sequence_data.xml',
         'data/cron.xml',
         'wizard/payment_wizard_view.xml',
