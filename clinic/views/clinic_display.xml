@@ -10,20 +10,26 @@
                         body { font-family: 'Cairo', sans-serif; background: #f5f5f0; direction: rtl; }
                         .q-wrap { min-height: 100vh; padding: 2rem; }
                         .q-header { text-align: center; margin-bottom: 2rem; }
-                        .section-label { font-size: 12px; font-weight: 600; color: #888; letter-spacing: 0.12em; margin-bottom: 1rem; }
+                        .section-label { font-size: 12px; font-weight: 600; color: #888; letter-spacing: 0.12em;
+                        margin-bottom: 1rem; }
                         .clinic-name { font-size: 28px; font-weight: 700; color: #1a1a1a; }
-                        .now-card { background: #fff; border: 1px solid #e8e8e8; border-radius: 16px; padding: 1.5rem 2rem; display: flex; align-items: center; gap: 1.5rem; margin-bottom: 2rem; }
-                        .now-badge { width: 80px; height: 80px; border-radius: 50%; background: #EAF3DE; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+                        .now-card { background: #fff; border: 1px solid #e8e8e8; border-radius: 16px; padding: 1.5rem
+                        2rem; display: flex; align-items: center; gap: 1.5rem; margin-bottom: 2rem; }
+                        .now-badge { width: 80px; height: 80px; border-radius: 50%; background: #EAF3DE; display: flex;
+                        align-items: center; justify-content: center; flex-shrink: 0; }
                         .now-badge span { font-size: 26px; font-weight: 900; color: #3B6D11; }
                         .now-num { font-size: 36px; font-weight: 900; color: #1a1a1a; }
                         .now-patient { font-size: 18px; font-weight: 600; color: #444; margin-top: 4px; }
                         .now-label { font-size: 14px; color: #888; margin-top: 4px; }
-                        .pulse-dot { width: 10px; height: 10px; border-radius: 50%; background: #639922; animation: pulse 1.5s infinite; }
+                        .pulse-dot { width: 10px; height: 10px; border-radius: 50%; background: #639922; animation:
+                        pulse 1.5s infinite; }
                         @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(0.8)} }
                         .divider { height: 1px; background: #e8e8e8; margin: 1.5rem 0; }
 
-                        .waiting-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 14px; }
-                        .wait-card { background: #fff; border: 1px solid #e8e8e8; border-radius: 14px; padding: 1.5rem; text-align: center; }
+                        .waiting-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                        gap: 14px; }
+                        .wait-card { background: #fff; border: 1px solid #e8e8e8; border-radius: 14px; padding: 1.5rem;
+                        text-align: center; }
                         .wait-num { font-size: 24px; font-weight: 700; color: #1a1a1a; line-height: 1.3; }
                         .wait-patient { font-size: 14px; color: #555; margin-top: 6px; font-weight: 600; }
                         .wait-pos { font-size: 12px; color: #aaa; margin-top: 4px; }
@@ -43,7 +49,8 @@
                         .wait-card.other .wait-patient { color: #991B1B; }
                         .wait-card.other .wait-pos { color: #DC2626; }
 
-                        .footer-bar { margin-top: 2rem; display: flex; justify-content: space-between; align-items: center; }
+                        .footer-bar { margin-top: 2rem; display: flex; justify-content: space-between; align-items:
+                        center; }
                         .footer-time { font-size: 13px; color: #aaa; }
                     </style>
                 </t>
@@ -74,7 +81,8 @@
                                 <div style="flex:1">
                                     <t t-if="current">
                                         <div class="now-num" t-esc="'رقم ' + current[0].name"/>
-                                        <div class="now-patient" t-esc="current[0].patient_id.name if current[0].patient_id else ''"/>
+                                        <div class="now-patient"
+                                             t-esc="current[0].patient_id.name if current[0].patient_id else ''"/>
                                         <div class="now-label">يُرجى التوجه للعيادة</div>
                                     </t>
                                     <t t-else="">
@@ -104,8 +112,11 @@
                                         </t>
                                         <div t-att-class="card_class">
                                             <div class="wait-num" t-esc="v.name"/>
-                                            <div class="wait-patient" t-esc="v.patient_id.name if v.patient_id else ''"/>
-                                            <div class="wait-pos">الترتيب <t t-esc="pos"/></div>
+                                            <div class="wait-patient"
+                                                 t-esc="v.patient_id.name if v.patient_id else ''"/>
+                                            <div class="wait-pos">الترتيب
+                                                <t t-esc="pos"/>
+                                            </div>
                                         </div>
                                         <t t-set="pos" t-value="pos + 1"/>
                                     </t>
@@ -123,16 +134,57 @@
                 </div>
 
                 <script type="text/javascript">
-                    function updateClock() {
-                        var now = new Date();
-                        var el = document.getElementById('clock');
-                        if (el) el.textContent = now.toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit' });
+
+                    function callPatient(number, department) {
+
+                    let text = "المريض رقم " + number + " يتفضل إلى عيادة " + department;
+
+                    const msg = new SpeechSynthesisUtterance(text);
+
+                    msg.lang = "ar-EG";
+                    msg.rate = 0.9;
+                    msg.pitch = 1;
+
+                    speechSynthesis.speak(msg);
                     }
-                    updateClock();
-                    setInterval(updateClock, 1000);
-                    setTimeout(function(){ location.reload(); }, 5000);
+
+                    odoo.define('clinic.display_bus', function (require) {
+
+                    const bus = require('bus.bus').bus;
+
+                    bus.addChannel("clinic_display_channel");
+
+                    bus.on("notification", this, function (notifications) {
+
+                    notifications.forEach(function (notif) {
+
+                    const data = notif[1];
+
+                    if (data.type === "call_patient") {
+
+                    callPatient(data.number, data.department);
+
+                    setTimeout(function () {
+                    location.reload();
+                    }, 3000);
+
+                    }
+
+                    });
+
+                    });
+
+                    bus.startPolling();
+
+                    });
+
                 </script>
             </t>
         </template>
+        <record id="action_clinic_display" model="ir.actions.act_url">
+            <field name="name">Clinic Display</field>
+            <field name="url">/clinic/display</field>
+            <field name="target">new</field>
+        </record>
     </data>
 </odoo>

@@ -402,7 +402,8 @@ class MedicalVisit(models.Model):
     def action_done(self):
         for rec in self:
             rec.state = 'done'
-            rec.action_next_patient()
+            bus = self.env['bus.bus']
+            next_patient = rec.action_next_patient()
             if rec.patient_id:
                 p = rec.patient_id
                 p.update({
@@ -424,6 +425,17 @@ class MedicalVisit(models.Model):
                     'physical_activity_level': rec.physical_activity_level,
                 })
                 p.medical_visit_ids |= rec
+                if next_patient:
+                    number = next_patient.name
+                    department = next_patient.department_id.name
+                    bus._sendone(
+                        "clinic_display_channel",
+                        {
+                            "type": "call_patient",
+                            "number": number,
+                            "department": department
+                        }
+                    )
 
     def action_cancel(self):
         for rec in self:

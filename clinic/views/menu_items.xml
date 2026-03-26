@@ -29,12 +29,25 @@
               parent="menu_medical_root"
               action="insurance_company_action"
               sequence="7"/>
-
+    <menuitem
+            id="menu_clinic_display"
+            name="Clinic Display"
+            parent="menu_medical_root"
+            action="action_clinic_display"
+            sequence="8"
+    />
+    <menuitem
+            id="menu_medical_settings"
+            name="Medical Settings"
+            parent="menu_medical_root"
+            action="action_medical_settings"
+            sequence="9"
+    />
     <menuitem
             id="menu_medical_reports"
             name="Reports"
             parent="menu_medical_root"
-            sequence="8"
+            sequence="20"
     />
 
     <!-- ══════════════════════════════════════
