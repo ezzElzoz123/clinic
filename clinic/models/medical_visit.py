@@ -333,7 +333,7 @@ class MedicalVisit(models.Model):
                 ('id', '!=', rec.id),
                 ('doctor_id', '=', rec.doctor_id.id),
                 ('date', '<', end_dt),
-                ('date', '>=', start_dt - timedelta(minutes=rec.duration_minutes)),
+                ('date', '>', start_dt - timedelta(minutes=rec.duration_minutes)),
                 ('state', '!=', 'cancel'),
             ])
             if overlaps:
