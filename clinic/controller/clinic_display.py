@@ -1,6 +1,6 @@
 from odoo import http
 from odoo.http import request
-
+import json
 
 class ClinicDisplay(http.Controller):
 
@@ -16,3 +16,24 @@ class ClinicDisplay(http.Controller):
             'visits': visits,
             'departments': departments,
         })
+
+    @http.route('/clinic/last_called', type='http', auth='public', csrf=False)
+    def last_called(self, **kw):
+        """يرجع آخر مريض اتنادى عليه للـ TTS"""
+        visit = request.env['medical.visit'].sudo().search(
+            [('status', 'in_progress')],
+            order='write_date desc',
+            limit=1,
+        )
+        if visit:
+            return request.make_response(
+                json.dumps({
+                    'number': visit.name,
+                    'department': visit.department_id.name or '',
+                }),
+                headers=[('Content-Type', 'application/json')]
+            )
+        return request.make_response(
+            json.dumps({'number': None}),
+            headers=[('Content-Type', 'application/json')]
+        )

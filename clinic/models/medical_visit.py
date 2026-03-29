@@ -2,6 +2,8 @@ from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
 import pytz
 from datetime import datetime, timedelta
+from gtts import gTTS
+import os
 
 
 class MedicalVisit(models.Model):
@@ -430,8 +432,8 @@ class MedicalVisit(models.Model):
                     department = next_patient.department_id.name
                     bus._sendone(
                         "clinic_display_channel",
+                        "call_patient",
                         {
-                            "type": "call_patient",
                             "number": number,
                             "department": department
                         }
@@ -481,6 +483,7 @@ class MedicalVisit(models.Model):
             # هات أول واحد مستني
             next_patient = self.search(
                 [('status', '=', 'waiting'),
+                 ('state', '!=', 'cancel'),
                  ('department_id', '=', rec.department_id.id),
                  ],
                 order="name asc",
@@ -488,6 +491,7 @@ class MedicalVisit(models.Model):
             )
             if next_patient:
                 next_patient.status = 'in_progress'
+                return next_patient
 
     # علشان لما افتح الصبح مش هيكون فيه حد in progress دي هتعمل كدة
     def action_ensure_in_progress(self):

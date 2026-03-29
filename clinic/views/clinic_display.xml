@@ -134,50 +134,60 @@
                 </div>
 
                 <script type="text/javascript">
-
+                    // ===== TTS =====
                     function callPatient(number, department) {
-
-                    let text = "المريض رقم " + number + " يتفضل إلى عيادة " + department;
-
+                    console.log("Calling patient:", number, department);
+                    const text = "المريض رقم " + number + " يتفضل إلى عيادة " + department;
                     const msg = new SpeechSynthesisUtterance(text);
-
                     msg.lang = "ar-EG";
                     msg.rate = 0.9;
                     msg.pitch = 1;
-
                     speechSynthesis.speak(msg);
                     }
 
-                    odoo.define('clinic.display_bus', function (require) {
-
-                    const bus = require('bus.bus').bus;
-
-                    bus.addChannel("clinic_display_channel");
-
-                    bus.on("notification", this, function (notifications) {
-
-                    notifications.forEach(function (notif) {
-
-                    const data = notif[1];
-
-                    if (data.type === "call_patient") {
-
-                    callPatient(data.number, data.department);
-
-                    setTimeout(function () {
-                    location.reload();
-                    }, 3000);
-
+                    // ===== Clock =====
+                    function updateClock() {
+                    const now = new Date();
+                    document.getElementById('clock').textContent =
+                    now.toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
                     }
+                    setInterval(updateClock, 1000);
+                    updateClock();
 
-                    });
+                    // ===== Polling: تحديث الشاشة كل ثانيتين =====
+                    async function refreshDisplay() {
+                    try {
+                    const res = await fetch('/clinic/display', { headers: { 'X-Requested-With': 'XMLHttpRequest' } });
+                    if (res.ok) {
+                    const html = await res.text();
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(html, 'text/html');
+                    const newContent = doc.querySelector('.q-wrap');
+                    const oldContent = document.querySelector('.q-wrap');
+                    if (newContent &amp;&amp; oldContent) {
+                    oldContent.innerHTML = newContent.innerHTML;
+                    updateClock();
+                    }
+                    }
+                    } catch (e) { /* silent fail */ }
+                    }
+                    setInterval(refreshDisplay, 2000);
 
-                    });
-
-                    bus.startPolling();
-
-                    });
-
+                    // ===== Bus: للـ TTS بس =====
+                    let lastKnownNumber = null;
+                    async function checkBus() {
+                    try {
+                    const res = await fetch('/clinic/last_called');
+                    if (res.ok) {
+                    const data = await res.json();
+                    if (data.number &amp;&amp; data.number !== lastKnownNumber) {
+                    lastKnownNumber = data.number;
+                    callPatient(data.number, data.department);
+                    }
+                    }
+                    } catch(e) {}
+                    }
+                    setInterval(checkBus, 1500);
                 </script>
             </t>
         </template>
