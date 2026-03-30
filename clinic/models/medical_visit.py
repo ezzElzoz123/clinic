@@ -427,6 +427,16 @@ class MedicalVisit(models.Model):
                     'physical_activity_level': rec.physical_activity_level,
                 })
                 p.medical_visit_ids |= rec
+                # ===== نقل الـ attachments للمريض =====
+                attachments = self.env['ir.attachment'].search([
+                    ('res_model', '=', 'medical.visit'),
+                    ('res_id', '=', rec.id)
+                ])
+
+                attachments.write({
+                    'res_model': 'medical.patient',
+                    'res_id': p.id
+                })
                 if next_patient:
                     number = next_patient.name
                     department = next_patient.department_id.name

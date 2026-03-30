@@ -18,7 +18,7 @@
               sequence="4"/>
     <menuitem id="menu_medical_patient"
               name="Patients"
-              parent="menu_medical_root"
+              parent="menu_medical_configurations"
               action="action_medical_patient"
               sequence="5"/>
     <menuitem id="menu_medical_prescription"

@@ -21,7 +21,7 @@ class ClinicDisplay(http.Controller):
     def last_called(self, **kw):
         """يرجع آخر مريض اتنادى عليه للـ TTS"""
         visit = request.env['medical.visit'].sudo().search(
-            [('status', 'in_progress')],
+            [('status', '=', 'in_progress')],
             order='write_date desc',
             limit=1,
         )
