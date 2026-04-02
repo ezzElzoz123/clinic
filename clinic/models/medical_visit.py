@@ -2,8 +2,6 @@ from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
 import pytz
 from datetime import datetime, timedelta
-from gtts import gTTS
-import os
 
 
 class MedicalVisit(models.Model):
