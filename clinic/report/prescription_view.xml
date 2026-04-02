@@ -118,24 +118,14 @@
                             </table>
                         </t>
                         <div style="font-size:13px;margin-top:30px;">
-                            <t t-if="o.radiology_required">
+                            <t t-if="o.checks_required">
                                 <p>
                                     <span style="padding-right:60px;">
-                                        <strong>الأشعات المطلوبة:</strong>
+                                        <strong>الفحوصات المطلوبة:</strong>
                                     </span>
                                 </p>
                                 <p>
-                                    <t t-esc="o.radiology_required"/>
-                                </p>
-                            </t>
-                            <t t-if="o.lab_required">
-                                <p>
-                                    <span style="padding-right:60px;">
-                                        <strong>التحاليل المطلوبة:</strong>
-                                    </span>
-                                </p>
-                                <p>
-                                    <t t-esc="o.lab_required"/>
+                                    <t t-esc="o.checks_required"/>
                                 </p>
                             </t>
                         </div>
