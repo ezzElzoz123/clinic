@@ -7,7 +7,8 @@
     'license': 'AGPL-3',
     'sequence': 1,
     'depends': [
-        'base', 'base_setup', 'purchase', 'account_accountant', 'hr', 'sale_management', 'stock', 'web'
+        'base', 'base_setup', 'purchase', 'account_accountant', 'hr', 'sale_management', 'stock', 'web',
+        'many2many_attachment_preview'
     ],
     # موديول المحاسبة هنزل اخوه الكوميونتي من اودو ابس علشان يشتغل كوميونتي
     'data': [

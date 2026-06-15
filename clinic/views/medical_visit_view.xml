@@ -158,9 +158,9 @@
                         <page string="Attachments">
                             <group>
                                 <field name="xray_attachment_ids" string="Radiological Attachment"
-                                       widget="many2many_binary"/>
-                                <field name="prescription_attachment_ids" widget="many2many_binary"/>
-                                <field name="lab_attachment_ids" widget="many2many_binary"/>
+                                       widget="many2many_attachment_preview"/>
+                                <field name="prescription_attachment_ids" widget="many2many_attachment_preview"/>
+                                <field name="lab_attachment_ids" widget="many2many_attachment_preview"/>
                             </group>
                         </page>
 
